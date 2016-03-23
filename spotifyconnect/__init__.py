@@ -2,20 +2,7 @@ from __future__ import unicode_literals
 
 import threading
 
-from spotifyconnect.audio import *  # noqa
-from spotifyconnect.config import *  # noqa
-from spotifyconnect.connect_ffi import ffi, lib, C  # noqa
-from spotifyconnect.connection import *  # noqa
-from spotifyconnect.error import *  # noqa
-from spotifyconnect.eventloop import *  # noqa
-from spotifyconnect.metadata import *  # noqa
-from spotifyconnect.player import *  # noqa
-from spotifyconnect.session import *  # noqa
-from spotifyconnect.sink import *  # noqa
-from spotifyconnect.zeroconf import *  # noqa
-
-
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 # Global reentrant lock to be held whenever libspotify functions are called or
@@ -89,7 +76,17 @@ class _SerializedLib(object):
 
 _setup_logging()
 
+from spotifyconnect.connect_ffi import ffi, lib, C  # noqa
 
 lib = _SerializedLib(lib)
 
-
+from spotifyconnect.audio import *  # noqa
+from spotifyconnect.config import *  # noqa
+from spotifyconnect.connection import *  # noqa
+from spotifyconnect.error import *  # noqa
+from spotifyconnect.eventloop import *  # noqa
+from spotifyconnect.metadata import *  # noqa
+from spotifyconnect.player import *  # noqa
+from spotifyconnect.session import *  # noqa
+from spotifyconnect.sink import *  # noqa
+from spotifyconnect.zeroconf import *  # noqa
