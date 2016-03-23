@@ -1,0 +1,9 @@
+include *.py
+include *.rst
+include LICENSE
+include MANIFEST.in
+
+include spotify/spotify.h
+include spotify/spotify.processed.h
+
+global-exclude __pycache__/*
