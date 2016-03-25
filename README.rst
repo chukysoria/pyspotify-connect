@@ -7,7 +7,7 @@ pyspotify-connect provides a Python interface to `Spotify Connect's <http://www.
 With pyspotify-connect you can create a Spotify Connect player on your device.
 All from your own Python applications.
 
-pyspotify uses `CFFI <https://cffi.readthedocs.org/>`_ to make a pure Python
+pyspotify-connect uses `CFFI <https://cffi.readthedocs.org/>`_ to make a pure Python
 wrapper around the `libspotify_embedded_shared` library. It works
 on CPython 2.7 and 3.3+, as well as PyPy 2.6+ and PyPy3 2.5+.  It is known to
 work only on Linux.
