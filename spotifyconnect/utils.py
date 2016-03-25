@@ -97,7 +97,7 @@ class EventEmitter(object):
         # when registering the second listener instead of when the event is
         # emitted.
         assert self.num_listeners(event) == 1, (
-            'Expected exactly 1 event listener, found %d listeners' % 
+            'Expected exactly 1 event listener, found %d listeners' %
             self.num_listeners(event))
         listener = self._listeners[event][0]
         args = list(event_args) + list(listener.user_args)
@@ -109,7 +109,7 @@ class _Listener(collections.namedtuple(
 
     """An listener of events from an :class:`EventEmitter`"""
 
-  
+
 class IntEnum(int):
 
     """An enum type for values mapping to integers.
@@ -137,8 +137,8 @@ class IntEnum(int):
         attr = cls(value)
         attr._name = name
         setattr(cls, name, attr)
-       
-        
+
+
 def make_enum(lib_prefix, enum_prefix=''):
     """Class decorator for automatically adding enum values.
 
@@ -180,7 +180,7 @@ def to_bytes_or_none(value):
         return ffi.string(value)
     else:
         raise ValueError('Value must be char[] or NULL')
-    
+
 
 def to_char(value):
     """Converts bytes, unicode, and C char arrays to C char arrays.  """
@@ -195,7 +195,7 @@ def to_char_or_null(value):
         return ffi.NULL
     else:
         return to_char(value)
-    
+
 
 def to_unicode(value):
     """Converts bytes, unicode, and C char arrays to unicode strings.

@@ -66,3 +66,6 @@ target/
 
 #Spotify key
 spotify_appkey.key
+
+#spotify embedded library
+_spotifyconnect.*

@@ -3,7 +3,7 @@ import spotifyconnect
 
 
 app = Flask('SpotifyConnect')
-        
+
 # #API routes
 # Login routes
 @app.route('/login/_zeroconf', methods=['GET', 'POST'])

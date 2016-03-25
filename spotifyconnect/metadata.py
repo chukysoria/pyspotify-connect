@@ -25,12 +25,12 @@ class Metadata(object):
         self.album_name = utils.to_unicode(sp_metadata.album_name)
         self.album_uri = utils.to_unicode(sp_metadata.album_uri)
         self.cover_uri = utils.to_unicode(sp_metadata.cover_uri)
-        self.duration = sp_metadata.duration        
-       
-        
+        self.duration = sp_metadata.duration
+
+
     def __repr__(self):
         return 'Metadata(%r)' % self.track_uri
-    
+
     @serialized
     def get_image_url(self, image_size):
         image_url = ffi.new('char[512]')

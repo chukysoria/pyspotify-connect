@@ -26,22 +26,22 @@ class Config(object):
 
     def __init__(self):
         self._sp_session_config = ffi.new('SpConfig *')
-             
+
         self.version = 4
         self._sp_session_config.buffer = ffi.dlopen(None).malloc(0x100000)
         self._sp_session_config.buffer_size = 0x100000
-        self.load_application_key_file() 
+        self.load_application_key_file()
         self.device_id = str(uuid.uuid4())
         self.remote_name = 'Spotify-Connect'
         self.brand_name = 'DummyBrand'
         self.model_name = 'DummyModel'
         self.device_type = DeviceType.AudioDongle
         self.userdata = ffi.new_handle(self)
-    
+
     @property
     def sp_session_config(self):
         return self._sp_session_config
-    
+
     @property
     def version(self):
         """The API version of the libspotify we're using.
@@ -92,7 +92,7 @@ class Config(object):
         """
         with open(filename, 'rb') as fh:
             self.app_key = fh.read()
-    
+
     @property
     def device_id(self):
         """Device ID for offline synchronization and logging purposes.
@@ -158,7 +158,7 @@ class Config(object):
     @userdata.setter
     def userdata(self, value):
         self._sp_session_config.userdata = value
-        
+
     @property
     def error_callback(self):
         return self._sp_session_config.error_callback
@@ -166,7 +166,7 @@ class Config(object):
     @error_callback.setter
     def error_callback(self, value):
         self._sp_session_config.error_callback = value
-                
-@utils.make_enum('kSpDeviceType')       
+
+@utils.make_enum('kSpDeviceType')
 class DeviceType(utils.IntEnum):
     pass

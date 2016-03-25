@@ -23,15 +23,15 @@ class Player(utils.EventEmitter):
     @serialized
     def __init__(self, session):
         super(Player, self).__init__()
-        
+
         spotifyconnect._player_instance = self
-    
+
         self._cache = weakref.WeakValueDictionary()
         self._emitters = []
         self._callback_handles = set()
-        
+
         spotifyconnect.Error.maybe_raise(lib.SpRegisterPlaybackCallbacks(_PlayerCallbacks.get_struct(), session))
-    
+
     _cache = None
     """A mapping from sp_* objects to their corresponding Python instances.
 
@@ -69,7 +69,7 @@ class Player(utils.EventEmitter):
 
     Internal attribute.
     """
-    
+
     @serialized
     def play(self):
         """Play the currently loaded track.
@@ -78,37 +78,37 @@ class Player(utils.EventEmitter):
         :attr:`~SessionCallbacks.music_delivery` callback.
         """
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackPlay())
-    
+
     @serialized
     def pause(self):
         """Pause the currently loaded track.
         """
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackPause())
-    
-    @serialized    
+
+    @serialized
     def skip_to_next(self):
         """Skips to the next track on the playlist.
         """
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackSkipToNext())
-    
-    @serialized    
+
+    @serialized
     def skip_to_prev(self):
         """Skips to the previous track on the playlist.
         """
-        spotifyconnect.Error.maybe_raise(lib.SpPlaybackSkipToPrev())            
-        
+        spotifyconnect.Error.maybe_raise(lib.SpPlaybackSkipToPrev())
+
     @serialized
     def seek(self, offset):
         """Seek to the offset in ms in the currently loaded track."""
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackSeek(offset))
-            
+
     @serialized
     def enable_shuffle(self, value=None):
         """Enable shuffle mode
         """
         if value == None:
             value = not self.shuffled
-        spotifyconnect.Error.maybe_raise(lib.SpPlaybackEnableShuffle(value))     
+        spotifyconnect.Error.maybe_raise(lib.SpPlaybackEnableShuffle(value))
 
     @serialized
     def enable_repeat(self, value=None):
@@ -122,7 +122,7 @@ class Player(utils.EventEmitter):
     @serialized
     def playing(self):
         return lib.SpPlaybackIsPlaying()
-    
+
     @property
     @serialized
     def shuffled(self):
@@ -136,23 +136,23 @@ class Player(utils.EventEmitter):
     @property
     @serialized
     def active_device(self):
-        return lib.SpPlaybackIsActiveDevice()    
-    
+        return lib.SpPlaybackIsActiveDevice()
+
     @property
     @serialized
     def volume(self):
-        return lib.SpPlaybackGetVolume() 
-    
+        return lib.SpPlaybackGetVolume()
+
     @volume.setter
     @serialized
     def volume(self, value):
         corrected_value = int(value * 655.35)
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackUpdateVolume(corrected_value))
-    
-    @property    
+
+    @property
     def current_track(self):
         return self.get_track_metadata()
-    
+
     @property
     @serialized
     def metadata_valid_range(self):
@@ -164,18 +164,18 @@ class Player(utils.EventEmitter):
             'end': end[0]
         }
         return rango
-    
+
     @serialized
     def get_track_metadata(self, offset=0):
         sp_metadata = ffi.new('SpMetadata *')
         spotifyconnect.Error.maybe_raise(lib.SpGetMetadata(sp_metadata, offset))
         return spotifyconnect.Metadata(sp_metadata)
-    
-        
+
+
     @serialized
     def set_bitrate(self, bitrate):
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackSetBitrate(bitrate))
-        
+
 class PlayerEvent(object):
 
     """AlsaSink events.
@@ -184,7 +184,7 @@ class PlayerEvent(object):
     MUSIC_DELIVERY = 'playback_data'
     PLAYBACK_SEEK = 'playback_seek'
     PLAYBACK_VOLUME = 'playback_volume'
-    
+
 class _PlayerCallbacks(object):
 
     """Internal class."""
@@ -208,25 +208,25 @@ class _PlayerCallbacks(object):
             return
         playback_notify = PlaybackNotify(sp_playback_notify)
         spotifyconnect._session_instance.player.emit(PlayerEvent.PLAYBACK_NOTIFY, playback_notify, ffi.from_handle(sp_userdata))
-                                             
+
     @staticmethod
-    @ffi.callback('uint32_t(const void *data, uint32_t num_samples, SpSampleFormat *format, uint32_t *pending, void *userdata)')
+    @ffi.callback('uint32_t(void *data, uint32_t num_samples, SpSampleFormat *format, uint32_t *pending, void *userdata)')
     def playback_data(frames, num_frames, sp_audioformat, sp_pending, sp_userdata):
         if not spotifyconnect._session_instance:
             return
         if spotifyconnect._session_instance.player.num_listeners(PlayerEvent.MUSIC_DELIVERY) == 0:
             return 0
-        
+
         audio_format = spotifyconnect.AudioFormat(sp_audioformat)
-        
+
         # Make sure waudio_formate don't pass incomplete frames
         num_frames -= num_frames % audio_format.channels
-        
+
         frames_buffer = ffi.buffer(frames, num_frames * audio_format.frame_size)
         frames_bytes = frames_buffer[:]
         num_frames_consumed = spotifyconnect._session_instance.player.call(PlayerEvent.MUSIC_DELIVERY, audio_format, frames_bytes, num_frames, sp_pending, ffi.from_handle(sp_userdata))
         return num_frames_consumed
-        
+
     @staticmethod
     @ffi.callback('void(uint32_t millis, void *userdata)')
     def playback_seek(sp_millis, sp_userdata):
@@ -234,18 +234,18 @@ class _PlayerCallbacks(object):
             return
         millis = int(sp_millis)
         spotifyconnect._session_instance.player.emit(PlayerEvent.PLAYBACK_SEEK, millis, ffi.from_handle(sp_userdata))
-        
-    
+
+
     @staticmethod
     @ffi.callback('void(uint16_t volume, void *userdata)')
     def playback_volume(sp_volume, sp_userdata):
         if not spotifyconnect._session_instance:
-            return        
+            return
         volume = sp_volume / 655.35
         spotifyconnect._session_instance.player.emit(PlayerEvent.PLAYBACK_VOLUME, volume, ffi.from_handle(sp_userdata))
 
 @utils.make_enum('kSpPlaybackEvent')
-@utils.make_enum('kSpPlaybackNotify')        
+@utils.make_enum('kSpPlaybackNotify')
 class PlaybackNotify(utils.IntEnum):
     pass
-        
+

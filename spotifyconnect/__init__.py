@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import threading
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 
 # Global reentrant lock to be held whenever libspotify functions are called or
@@ -76,7 +76,7 @@ class _SerializedLib(object):
 
 _setup_logging()
 
-from spotifyconnect.connect_ffi import ffi, lib, C  # noqa
+from spotifyconnect._spotifyconnect import ffi, lib  # noqa
 
 lib = _SerializedLib(lib)
 

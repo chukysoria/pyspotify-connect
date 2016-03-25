@@ -15,7 +15,7 @@ work only on Linux.
 This wrapper is heavily based on the 
 `pyspotify <https://github.com/mopidy/pyspotify>`_ wrapper for libspotify and
 the spotify-connect implementation 
-`Spotify Web Connect <https://github.com/Fornoth/spotify-connect-web>`_.
+`Spotify Connect Web <https://github.com/Fornoth/spotify-connect-web>`_.
 
 Spotify Connect Library
 =======================

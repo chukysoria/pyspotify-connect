@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import weakref
 
-from spotifyconnect import ffi, lib, utils, serialized
+from spotifyconnect import ffi, lib, serialized, utils
 import spotifyconnect
 
 
@@ -21,21 +21,21 @@ class Connection(utils.EventEmitter):
     it ready to use as the :attr:`~Session.connection` attribute on the
     :class:`Session` instance.
     """
-    
+
     @serialized
     def __init__(self, session):
         super(Connection, self).__init__()
-        
+
         self._connectionStatus = ConnectionState.LoggedOut
         spotifyconnect._connection_instance = self
 
         self._cache = weakref.WeakValueDictionary()
         self._emitters = []
         self._callback_handles = set()
-        
+
         spotifyconnect.Error.maybe_raise(lib.SpRegisterConnectionCallbacks(_ConnectionCallbacks.get_struct(), session))
         spotifyconnect.Error.maybe_raise(lib.SpRegisterDebugCallbacks(_DebugCallbacks.get_struct(), session))
-            
+
     @property
     @serialized
     def connection_state(self):
@@ -44,7 +44,7 @@ class Connection(utils.EventEmitter):
         The mapping is as follows
 
         - :attr:`~ConnectionState.LoggedIn`: authenticated, online
-        - :attr:`~ConnectionState.LoggedOut`: not authenticated        
+        - :attr:`~ConnectionState.LoggedOut`: not authenticated
         - :attr:`~ConnectionState.TemporaryError`: Unknown error
 
         Register listeners for the
@@ -115,13 +115,13 @@ class Connection(utils.EventEmitter):
             spotifyconnect.Error.maybe_raise(lib.SpConnectionLoginZeroConf(username, *zeroconf))
         else:
             raise AttributeError("Must specify a login method (password, blob or zeroconf)")
-    
+
     @serialized
     def logout(self):
         """Log out the current user.
         """
         spotifyconnect.Error.maybe_raise(lib.SpConnectionLogout())
-        
+
 class ConnectionEvent(object):
 
     """Connection events.
@@ -138,7 +138,7 @@ class DebugEvent(object):
 
     DEBUG_MESSAGE = 'debug_message'
 
-        
+
 class _ConnectionCallbacks(object):
 
     """Internal class."""
@@ -162,9 +162,9 @@ class _ConnectionCallbacks(object):
         spotifyconnect._session_instance.connection.emit(
             ConnectionEvent.CONNECTION_NOTIFY_UPDATED,
             connection_notify, ffi.from_handle(sp_userdata))
-         
+
     @staticmethod
-    @ffi.callback('void(const char *blob, void *userdata)')
+    @ffi.callback('void(char *blob, void *userdata)')
     def connection_new_credentials(sp_blob, sp_userdata):
         if not spotifyconnect._session_instance:
             return
@@ -186,7 +186,7 @@ class _DebugCallbacks(object):
     # callbacks.
 
     @staticmethod
-    @ffi.callback('void(const char *msg, void *userdata)')
+    @ffi.callback('void(char *msg, void *userdata)')
     def debug_message(sp_message, sp_userdata):
         if not spotifyconnect._session_instance:
             return
@@ -194,7 +194,7 @@ class _DebugCallbacks(object):
         spotifyconnect._session_instance.connection.emit(
             DebugEvent.DEBUG_MESSAGE,
             message, ffi.from_handle(sp_userdata))
-              
+
 @utils.make_enum('kSpConnectionNotify')
 class ConnectionState(utils.IntEnum):
     pass

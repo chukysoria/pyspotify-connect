@@ -57,7 +57,7 @@ class AudioFormat(object):
     def channels(self):
         """The number of alsa_sink channels, typically 2."""
         return self._sp_audioformat.channels
-    
+
     @property
     def frame_size(self):
         """The byte size of a single frame of this format."""

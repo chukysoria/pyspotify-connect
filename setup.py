@@ -30,6 +30,8 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
+    setup_requires=['cffi >= 1.0.0'],
+    cffi_modules=['spotifyconnect/_spotifyconnect_build.py:ffi'],
     install_requires=[
         'cffi >= 1.0.0',
         'Flask >= 0.10.1'],

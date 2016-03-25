@@ -25,25 +25,25 @@ class Zeroconf(object):
         self.remote_name = utils.to_unicode(sp_zeroconf.remoteName)
         self.account_req = utils.to_unicode(sp_zeroconf.accountReq)
         self.device_type = utils.to_unicode(sp_zeroconf.deviceType)
-        
+
 
 class AvahiZeroConfServer(Process):
     """A SpotifyConnect ZeroConf server.
     """
-    
+
     daemon = True
     name = 'SpotifyConnectServer'
-    
-    def __init__(self, port=6697):        
+
+    def __init__(self, port=6697):
         Process.__init__(self)
-        
+
         self._application = app
-        self.port = port        
-    
+        self.port = port
+
     _application = None
     port = None
-        
+
     def run(self):
-        
+
         # First run the command avahi-publish-service SpotifyConnect _spotify-connect._tcp 6697 VERSION=1.0 CPath=/login/_zeroconf
         self._application.run(host='0.0.0.0', port=self.port, debug=True, use_reloader=False, threaded=True)
