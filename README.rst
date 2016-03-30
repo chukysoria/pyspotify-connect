@@ -17,6 +17,14 @@ This wrapper is heavily based on the
 the spotify-connect implementation 
 `Spotify Connect Web <https://github.com/Fornoth/spotify-connect-web>`_.
 
+Dependencies
+============
+
+- A Spotify Premium subscription. pyspotify-connect **will not** work with Spotify
+  Free, just Spotify Premium.
+
+- ``libspotify_embeded_shared``, see below for instructions..
+
 Spotify Connect Library
 =======================
 
@@ -26,9 +34,29 @@ grab it from one of the links below depending you Linux version.
 - `armel - armv6 <https://github.com/sashahilton00/spotify-connect-resources/blob/master/libs/armel/armv6/release-esdk-1.18.0-v1.18.0-g121b4b2b/libspotify_embedded_shared.so>`_
 - `armhf - armv7 <https://github.com/sashahilton00/spotify-connect-resources/tree/master/libs/armhf/armv7/release-esdk-1.20.0-v1.20.0-g594175d4>`_
 
+Copy the appropiated library for your architecture to ``\usr\lib``.
+
+Installation
+============
+
+Install the dependencies listed above yourself, and then install the
+package from PyPI::
+
+    pip install pyspotify
+
+
 Project resources
 =================
 
 - `Source code <https://github.com/chukysoria/pyspotify-connect>`_
 - `Issue tracker <https://github.com/chukysoria/pyspotify-connect/issues>`_
 - `Spotify Connect resources <https://github.com/sashahilton00/spotify-connect-resources>`_
+
+.. image:: https://img.shields.io/pypi/v/pyspotify-connect.svg?style=flat
+    :target: https://pypi.python.org/pypi/pyspotify-connect
+ 
+.. image:: https://img.shields.io/pypi/status/pyspotify-connect.svg?style=flat
+    :target: https://pypi.python.org/pypi/pyspotify-connect
+ 
+.. image:: https://img.shields.io/pypi/dm/pyspotify-connect.svg?style=flat
+    :target: https://pypi.python.org/pypi/pyspotify-connect
