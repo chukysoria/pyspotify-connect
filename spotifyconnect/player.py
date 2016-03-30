@@ -141,7 +141,9 @@ class Player(utils.EventEmitter):
     @property
     @serialized
     def volume(self):
-        return lib.SpPlaybackGetVolume()
+        value = lib.SpPlaybackGetVolume()
+        corrected_value = value / 655.35
+        return corrected_value
 
     @volume.setter
     @serialized
