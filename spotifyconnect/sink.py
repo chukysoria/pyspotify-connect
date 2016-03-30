@@ -2,6 +2,9 @@ from __future__ import unicode_literals
 
 import spotifyconnect
 
+__all__ = [
+    'Sink'
+]
 
 class Sink(object):
 
