@@ -30,7 +30,6 @@ class Config(object):
         self.version = 4
         self._sp_session_config.buffer = ffi.dlopen(None).malloc(0x100000)
         self._sp_session_config.buffer_size = 0x100000
-        self.load_application_key_file()
         self.device_id = str(uuid.uuid4())
         self.remote_name = 'Spotify-Connect'
         self.brand_name = 'DummyBrand'
