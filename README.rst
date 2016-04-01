@@ -34,7 +34,7 @@ grab it from one of the links below depending you Linux version.
 - `armel - armv6 <https://github.com/sashahilton00/spotify-connect-resources/blob/master/libs/armel/armv6/release-esdk-1.18.0-v1.18.0-g121b4b2b/libspotify_embedded_shared.so>`_
 - `armhf - armv7 <https://github.com/sashahilton00/spotify-connect-resources/tree/master/libs/armhf/armv7/release-esdk-1.20.0-v1.20.0-g594175d4>`_
 
-Copy the appropiated library for your architecture to ``\usr\lib``.
+Copy the appropiated library for your architecture to ``/usr/lib``.
 
 Installation
 ============
