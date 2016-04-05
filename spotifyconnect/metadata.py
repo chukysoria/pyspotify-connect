@@ -18,6 +18,7 @@ class Metadata(object):
     def __init__(self, sp_metadata):
 
         self.playlist_name = utils.to_unicode(sp_metadata.data0)
+        self.playlist_uri = utils.to_unicode(sp_metadata.context_uri)
         self.track_name = utils.to_unicode(sp_metadata.track_name)
         self.track_uri = utils.to_unicode(sp_metadata.track_uri)
         self.artist_name = utils.to_unicode(sp_metadata.artist_name)

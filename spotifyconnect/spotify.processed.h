@@ -241,8 +241,8 @@ typedef struct {
 } SpZeroConfVars;
 
 typedef struct {
-    char data0[0x100];
-    char context_uri[0x80];
+    char playlist_name[0x100];
+    char playlist_uri[0x80];
     char track_name[0x100];
     char track_uri[0x80];
     char artist_name[0x100];
