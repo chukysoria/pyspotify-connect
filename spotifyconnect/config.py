@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 
+import logging
 import uuid
 
-from spotifyconnect import ffi, utils
+from spotifyconnect import ffi, lib, utils
 
 
 __all__ = [
@@ -10,6 +11,13 @@ __all__ = [
     'DeviceType'
 ]
 
+logger = logging.getLogger(__name__)
+
+VERSION = 4
+BUFFER_SIZE = 0x100000
+REMOTE_NAME = 'Spotify-Connect'
+BRAND_NAME = 'DummyBrand'
+MODEL_NAME = 'DummyModel'
 
 class Config(object):
 
@@ -27,15 +35,18 @@ class Config(object):
     def __init__(self):
         self._sp_session_config = ffi.new('SpConfig *')
 
-        self.version = 4
-        self._sp_session_config.buffer = ffi.dlopen(None).malloc(0x100000)
-        self._sp_session_config.buffer_size = 0x100000
-        self.device_id = str(uuid.uuid4())
-        self.remote_name = 'Spotify-Connect'
-        self.brand_name = 'DummyBrand'
-        self.model_name = 'DummyModel'
+        self.version = VERSION
+        self.buffer_size = BUFFER_SIZE #1MB 
+        try:
+            self.load_application_key_file()
+        except IOError as e:
+            logger.info('File spotify_appkey.key not found on default location.')
+            
+        self.device_id = str(uuid.uuid4())    
+        self.remote_name = REMOTE_NAME
+        self.brand_name = BRAND_NAME
+        self.model_name = MODEL_NAME
         self.device_type = DeviceType.AudioDongle
-        self.userdata = ffi.new_handle(self)
 
     @property
     def sp_session_config(self):
@@ -44,16 +55,24 @@ class Config(object):
     @property
     def version(self):
         """The API version of the libspotify we're using.
-
-        You should not need to change this. It defaults to the value provided
-        by libspotify through :func:`spotify.get_libspotify_api_version`.
         """
         return self._sp_session_config.version
 
     @version.setter
     def version(self, value):
         self._sp_session_config.version = value
-
+    
+    @property
+    def buffer_size(self):
+        """The buffer size on bytes which libspotify-embedded-shared will uses.
+        """
+        return  self._sp_session_config.buffer_size
+    
+    @buffer_size.setter
+    def buffer_size(self, value):
+        self._sp_session_config.buffer_size = value
+        self.sp_session_config.buffer = lib.malloc(value)
+        
     @property
     def app_key(self):
         """Your libspotify application key.
@@ -149,7 +168,25 @@ class Config(object):
     @device_type.setter
     def device_type(self, value):
         self._sp_session_config.deviceType = value
+        
+    @property
+    def client_id(self):
+        return utils.to_unicode_or_none(self._sp_session_config.client_id)
 
+    @client_id.setter
+    def client_id(self, value):
+        self._client_id = utils.to_char_or_null(value or None)
+        self._sp_session_config.client_id = self._client_id
+        
+    @property
+    def client_secret(self):
+        return utils.to_unicode_or_none(self._sp_session_config.client_secret)
+
+    @client_secret.setter
+    def client_secret(self, value):
+        self._client_secret = utils.to_char_or_null(value or None)
+        self._sp_session_config.client_secret = self._client_secret
+        
     @property
     def userdata(self):
         return self._sp_session_config.userdata
