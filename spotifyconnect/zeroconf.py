@@ -25,6 +25,7 @@ class Zeroconf(object):
         self.remote_name = utils.to_unicode(sp_zeroconf.remoteName)
         self.account_req = utils.to_unicode(sp_zeroconf.accountReq)
         self.device_type = utils.to_unicode(sp_zeroconf.deviceType)
+        self.library_version = utils.to_unicode(sp_zeroconf.libraryVersion)
 
 
 class AvahiZeroConfServer(Process):
