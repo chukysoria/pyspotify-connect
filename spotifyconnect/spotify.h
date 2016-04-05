@@ -102,9 +102,9 @@ typedef struct {
 
 typedef struct {
     char publicKey[0x96];
-    char deviceId[0x41];
-    char activeUser[0x41];
-    char remoteName[0x41];
+    char deviceId[0x40];
+    char activeUser[0x40];
+    char remoteName[0x40];
     char accountReq[0x10];
     char deviceType[0x10];
     char libraryVersion[0x1f];
