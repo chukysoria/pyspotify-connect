@@ -3,7 +3,6 @@ include *.rst
 include LICENSE
 include MANIFEST.in
 
-include spotifyconnect/spotify.h
-include spotifyconnect/spotify.processed.h
+include spotifyconnect/spotify.*.h
 
 global-exclude __pycache__/*
