@@ -42,7 +42,7 @@ Installation
 Install the dependencies listed above yourself, and then install the
 package from PyPI::
 
-    pip install pyspotify
+    pip install pyspotify-connect
 
 
 Project resources
