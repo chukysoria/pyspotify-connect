@@ -161,11 +161,11 @@ class Player(utils.EventEmitter):
         start = ffi.new("int *")
         end = ffi.new("int *")
         spotifyconnect.Error.maybe_raise(lib.SpGetMetadataValidRange(start, end))
-        rango = {
+        valid_range = {
             'start': start[0],
             'end': end[0]
         }
-        return rango
+        return valid_range
 
     @serialized
     def get_track_metadata(self, offset=0):
