@@ -17,8 +17,8 @@ class Metadata(object):
 
     def __init__(self, sp_metadata):
 
-        self.playlist_name = utils.to_unicode(sp_metadata.data0)
-        self.playlist_uri = utils.to_unicode(sp_metadata.context_uri)
+        self.playlist_name = utils.to_unicode(sp_metadata.playlist_name)
+        self.playlist_uri = utils.to_unicode(sp_metadata.playlist_uri)
         self.track_name = utils.to_unicode(sp_metadata.track_name)
         self.track_uri = utils.to_unicode(sp_metadata.track_uri)
         self.artist_name = utils.to_unicode(sp_metadata.artist_name)
@@ -30,7 +30,7 @@ class Metadata(object):
 
 
     def __repr__(self):
-        return 'Metadata(%r)' % self.track_uri
+        return 'Metadata(%s)' % self.track_uri
 
     @serialized
     def get_image_url(self, image_size):
