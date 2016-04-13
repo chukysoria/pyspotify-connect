@@ -36,7 +36,7 @@ class ConnectionTest(unittest.TestCase):
             b'foo')
         self.assertEqual(
             lib_mock.SpConnectionLoginPassword.call_args[0][1],
-            b'bar')
+            'bar')
 
     def test_login_fails_with_assert(self, lib_mock):
         lib_mock.SpConnectionLoginPassword.return_value = spotifyconnect.ErrorType.WrongAPIVersion
@@ -57,7 +57,7 @@ class ConnectionTest(unittest.TestCase):
             b'foo')
         self.assertEqual(
             lib_mock.SpConnectionLoginBlob.call_args[0][1],
-            b'bar')
+            'bar')
 
     def test_login_blob_fails_with_assert(self, lib_mock):
         lib_mock.SpConnectionLoginBlob.return_value = spotifyconnect.ErrorType.WrongAPIVersion
@@ -72,7 +72,7 @@ class ConnectionTest(unittest.TestCase):
 
         session.connection.login(username='foo', zeroconf=('bar', 'bar2'))
 
-        lib_mock.SpConnectionLoginZeroConf.assert_called_once_with(mock.ANY, b'bar', b'bar2')
+        lib_mock.SpConnectionLoginZeroConf.assert_called_once_with(mock.ANY, 'bar', 'bar2')
         self.assertEqual(
             spotifyconnect.ffi.string(lib_mock.SpConnectionLoginZeroConf.call_args[0][0]),
             b'foo')

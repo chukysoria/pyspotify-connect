@@ -395,7 +395,7 @@ class ConnectionCallbacksTest(unittest.TestCase):
         session.player.on(spotifyconnect.PlayerEvent.PLAYBACK_VOLUME, callback)        
         
         _PlayerCallbacks.playback_volume(39321, session_handle)
-        
+                
         self.assertFalse(callback.called)    
 
 class PlaybackNotifyTest(unittest.TestCase):    

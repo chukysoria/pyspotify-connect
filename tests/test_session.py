@@ -55,7 +55,7 @@ class SessionTest(unittest.TestCase):
         lib_mock.SpSetDisplayName.called_once_with(mock.ANY)
         self.assertEqual(
             spotifyconnect.ffi.string(lib_mock.SpSetDisplayName.call_args[0][0]),
-            'a connect name')
+            b'a connect name')
             
     def test_set_remote_name_fails_with_assert(self, lib_mock):
         lib_mock.SpSetDisplayName.return_value = spotifyconnect.ErrorType.WrongAPIVersion

@@ -7,15 +7,15 @@ import tests
 from tests import mock
 
 import spotifyconnect
-from spotifyconnect._zeroconfserver import app
+from spotifyconnect import _zeroconfserver
 
 class ZeroconfTest(unittest.TestCase):
     
     def setUp(self):
-        self.client = app.test_client()
+        self.client = _zeroconfserver.app.test_client()
 
     def test_login_zeroconf_empty_get(self):
-        data = self.client.get('/login/_zeroconf').data
+        data = self.client.get('/login/_zeroconf').data.decode()
         result = json.loads(data)
 
         self.assertEqual(result['status'], 301)
@@ -23,7 +23,7 @@ class ZeroconfTest(unittest.TestCase):
         self.assertEqual(result['statusString'], 'ERROR-MISSING-ACTION')
 
     def test_login_zeroconf_wrong_action(self):
-        data = self.client.get('/login/_zeroconf?action=foo').data
+        data = self.client.get('/login/_zeroconf?action=foo').data.decode()
         result = json.loads(data)
 
         self.assertEqual(result['status'], 301)
@@ -35,7 +35,7 @@ class ZeroconfTest(unittest.TestCase):
         lib_mock.SpZeroConfGetVars.side_effect = tests.mock_zeroconf
         tests.create_real_session(lib_mock)
                 
-        data = self.client.get('/login/_zeroconf?action=getInfo').data
+        data = self.client.get('/login/_zeroconf?action=getInfo').data.decode()
         result = json.loads(data)
 
         self.assertEqual(result['status'], 101)
@@ -60,11 +60,11 @@ class ZeroconfTest(unittest.TestCase):
         data = self.client.post('/login/_zeroconf?action=addUser', data=dict(
             userName='foo',
             blob='longstring',
-            clientKey='longkey')).data
+            clientKey='longkey')).data.decode()
         result = json.loads(data)
 
         self.assertEqual(result['status'], 101)
         self.assertEqual(result['spotifyError'], 0)
         self.assertEqual(result['statusString'], 'ERROR-OK')
         lib_mock.SpConnectionLoginZeroConf.assert_called_once_with(mock.ANY, 'longstring', 'longkey')
-        self.assertEqual(spotifyconnect.ffi.string(lib_mock.SpConnectionLoginZeroConf.call_args[0][0]), 'foo')
+        self.assertEqual(spotifyconnect.ffi.string(lib_mock.SpConnectionLoginZeroConf.call_args[0][0]), b'foo')

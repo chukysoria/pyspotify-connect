@@ -5,6 +5,7 @@ import unittest
 import spotifyconnect
 import tests
 from tests import mock
+from spotifyconnect import utils
 
 
 class MetadataTest(unittest.TestCase):
@@ -121,9 +122,9 @@ class MetadataTest(unittest.TestCase):
         
         result = metadata.get_image_url(spotifyconnect.ImageSize.Normal)
         
-	lib_mock.SpGetMetadataImageURL.called_once_with(mock.ANY, spotifyconnect.ImageSize.Normal, mock.ANY, 512)
-	self.assertEqual(
-            spotifyconnect.ffi.string(lib_mock.SpGetMetadataImageURL.call_args[0][0]),
+        lib_mock.SpGetMetadataImageURL.called_once_with(mock.ANY, spotifyconnect.ImageSize.Normal, mock.ANY, 512)
+        self.assertEqual(
+            utils.to_unicode(lib_mock.SpGetMetadataImageURL.call_args[0][0]),
             metadata.cover_uri)
         self.assertEqual(result, 'http://url.test')
 
