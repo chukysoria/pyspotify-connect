@@ -69,7 +69,7 @@ class _SerializedLib(object):
     def __init__(self, lib):
         for name in dir(lib):
             attr = getattr(lib, name)
-            if name.startswith('SP') and callable(attr):
+            if name.startswith('Sp') and callable(attr):
                 attr = serialized(attr)
             setattr(self, name, attr)
 
