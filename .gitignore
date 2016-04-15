@@ -69,7 +69,7 @@ target/
 *.pyproj
 
 #Spotify key
-spotify_appkey.key
+*.key
 
 #spotify embedded library
 _spotifyconnect.*
