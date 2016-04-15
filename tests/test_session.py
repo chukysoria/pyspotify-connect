@@ -24,7 +24,7 @@ class SessionTest(unittest.TestCase):
 
     @mock.patch('spotifyconnect.player.lib', spec=spotifyconnect.lib)
     @mock.patch('spotifyconnect.connection.lib', spec=spotifyconnect.lib)
-    @mock.patch('spotifyconnect.Config')    
+    @mock.patch('spotifyconnect.Config')
     def test_creates_config_if_none_provided(self, config_cls_mock, conn_lib_mock, player_lib_mock, lib_mock):
         lib_mock.SpInit.return_value = spotifyconnect.ErrorType.Ok
         player_lib_mock.SpRegisterPlaybackCallbacks.return_value = spotifyconnect.ErrorType.Ok

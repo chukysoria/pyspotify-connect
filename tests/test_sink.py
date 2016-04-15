@@ -46,4 +46,3 @@ class BaseSinkTest(unittest.TestCase):
 
         with self.assertRaises(NotImplementedError):
             self.sink._on_music_delivery(mock.ANY, mock.ANY, mock.ANY, mock.ANY, mock.ANY)
-

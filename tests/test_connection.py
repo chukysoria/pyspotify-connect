@@ -197,5 +197,3 @@ class ConnectionStateTest(unittest.TestCase):
         self.assertEqual(spotifyconnect.ConnectionState.LoggedIn, 0)
         self.assertEqual(spotifyconnect.ConnectionState.LoggedOut, 1)
         self.assertEqual(spotifyconnect.ConnectionState.TemporaryError, 2)
-    
-
