@@ -2,8 +2,7 @@ from __future__ import unicode_literals
 
 from multiprocessing import Process
 
-from _zeroconfserver import app
-from spotifyconnect import utils
+from spotifyconnect import utils, _zeroconfserver
 
 
 __all__ = [
@@ -38,7 +37,7 @@ class AvahiZeroConfServer(Process):
     def __init__(self, port=6697):
         Process.__init__(self)
 
-        self._application = app
+        self._application = _zeroconfserver.app
         self.port = port
 
     _application = None
@@ -47,4 +46,4 @@ class AvahiZeroConfServer(Process):
     def run(self):
 
         # First run the command avahi-publish-service SpotifyConnect _spotify-connect._tcp 6697 VERSION=1.0 CPath=/login/_zeroconf
-        self._application.run(host='0.0.0.0', port=self.port, debug=True, use_reloader=False, threaded=True)
+        self._application.run(host='0.0.0.0', port=self.port, debug=True, use_reloader=False, threaded=True) # pragma: no cover

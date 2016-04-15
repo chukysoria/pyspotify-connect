@@ -51,7 +51,7 @@ class Connection(utils.EventEmitter):
         :attr:`spotify.SessionEvent.CONNECTION_STATE_UPDATED` event to be
         notified when the connection state changes.
         """
-        return ConnectionState(lib.SpConnectionIsLoggedIn())
+        return ConnectionState(not lib.SpConnectionIsLoggedIn())
 
     _cache = None
     """A mapping from sp_* objects to their corresponding Python instances.

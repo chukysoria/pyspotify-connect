@@ -63,6 +63,10 @@ target/
 
 #Python project
 .project
+.settings/
+.vs
+*.sln
+*.pyproj
 
 #Spotify key
 spotify_appkey.key
