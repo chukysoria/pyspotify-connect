@@ -68,7 +68,7 @@ class EventLoop(threading.Thread):
             try:
                 logger.debug('Waiting %.3fs for new events', timeout)
                 self._queue.get(timeout=timeout)
-            except queue.Empty:
+            except queue.Empty: # pragma: no cover
                 logger.debug('Timeout reached; processing events')
             else:
                 logger.debug('Notification received; processing events')
