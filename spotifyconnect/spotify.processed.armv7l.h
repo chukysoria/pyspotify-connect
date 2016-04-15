@@ -1,46 +1,41 @@
-# 1 "spotify.h"
+# 1 "spotify.armv7l.h"
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "/usr/include/stdc-predef.h" 1 3 4
 # 1 "<command-line>" 2
-# 1 "spotify.h"
+# 1 "spotify.armv7l.h"
 
 
 
-# 1 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stddef.h" 1 3 4
-# 147 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stddef.h" 3 4
+# 1 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stddef.h" 1 3 4
+# 147 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stddef.h" 3 4
 typedef int ptrdiff_t;
-# 212 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stddef.h" 3 4
+# 212 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stddef.h" 3 4
 typedef unsigned int size_t;
-# 324 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stddef.h" 3 4
+# 324 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stddef.h" 3 4
 typedef unsigned int wchar_t;
-# 5 "spotify.h" 2
-# 1 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stdint.h" 1 3 4
-# 9 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stdint.h" 3 4
+# 5 "spotify.armv7l.h" 2
+# 1 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stdint.h" 1 3 4
+# 9 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stdint.h" 3 4
 # 1 "/usr/include/stdint.h" 1 3 4
 # 25 "/usr/include/stdint.h" 3 4
 # 1 "/usr/include/features.h" 1 3 4
 # 374 "/usr/include/features.h" 3 4
-# 1 "/usr/include/arm-linux-gnueabi/sys/cdefs.h" 1 3 4
-# 385 "/usr/include/arm-linux-gnueabi/sys/cdefs.h" 3 4
-# 1 "/usr/include/arm-linux-gnueabi/bits/wordsize.h" 1 3 4
-# 386 "/usr/include/arm-linux-gnueabi/sys/cdefs.h" 2 3 4
+# 1 "/usr/include/arm-linux-gnueabihf/sys/cdefs.h" 1 3 4
+# 385 "/usr/include/arm-linux-gnueabihf/sys/cdefs.h" 3 4
+# 1 "/usr/include/arm-linux-gnueabihf/bits/wordsize.h" 1 3 4
+# 386 "/usr/include/arm-linux-gnueabihf/sys/cdefs.h" 2 3 4
 # 375 "/usr/include/features.h" 2 3 4
 # 398 "/usr/include/features.h" 3 4
-# 1 "/usr/include/arm-linux-gnueabi/gnu/stubs.h" 1 3 4
-
-
-
-
-
-
-# 1 "/usr/include/arm-linux-gnueabi/gnu/stubs-soft.h" 1 3 4
-# 8 "/usr/include/arm-linux-gnueabi/gnu/stubs.h" 2 3 4
+# 1 "/usr/include/arm-linux-gnueabihf/gnu/stubs.h" 1 3 4
+# 10 "/usr/include/arm-linux-gnueabihf/gnu/stubs.h" 3 4
+# 1 "/usr/include/arm-linux-gnueabihf/gnu/stubs-hard.h" 1 3 4
+# 11 "/usr/include/arm-linux-gnueabihf/gnu/stubs.h" 2 3 4
 # 399 "/usr/include/features.h" 2 3 4
 # 26 "/usr/include/stdint.h" 2 3 4
-# 1 "/usr/include/arm-linux-gnueabi/bits/wchar.h" 1 3 4
+# 1 "/usr/include/arm-linux-gnueabihf/bits/wchar.h" 1 3 4
 # 27 "/usr/include/stdint.h" 2 3 4
-# 1 "/usr/include/arm-linux-gnueabi/bits/wordsize.h" 1 3 4
+# 1 "/usr/include/arm-linux-gnueabihf/bits/wordsize.h" 1 3 4
 # 28 "/usr/include/stdint.h" 2 3 4
 # 36 "/usr/include/stdint.h" 3 4
 typedef signed char int8_t;
@@ -130,10 +125,10 @@ typedef unsigned int uintptr_t;
 typedef long long int intmax_t;
 
 typedef unsigned long long int uintmax_t;
-# 10 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stdint.h" 2 3 4
-# 6 "spotify.h" 2
-# 1 "/usr/lib/gcc/arm-linux-gnueabi/4.9/include/stdbool.h" 1 3 4
-# 7 "spotify.h" 2
+# 10 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stdint.h" 2 3 4
+# 6 "spotify.armv7l.h" 2
+# 1 "/usr/lib/gcc/arm-linux-gnueabihf/4.9/include/stdbool.h" 1 3 4
+# 7 "spotify.armv7l.h" 2
 
 typedef enum {
     kSpErrorOk = 0,
@@ -241,8 +236,8 @@ typedef struct {
 } SpZeroConfVars;
 
 typedef struct {
-    char data0[0x100];
-    char context_uri[0x80];
+    char playlist_name[0x100];
+    char playlist_uri[0x80];
     char track_name[0x100];
     char track_uri[0x80];
     char artist_name[0x100];

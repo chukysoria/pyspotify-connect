@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import threading
 
-__version__ = '0.1.8'
+__version__ = '0.1.9'
 
 
 # Global reentrant lock to be held whenever libspotify functions are called or
@@ -69,7 +69,7 @@ class _SerializedLib(object):
     def __init__(self, lib):
         for name in dir(lib):
             attr = getattr(lib, name)
-            if name.startswith('SP') and callable(attr):
+            if name.startswith('Sp') and callable(attr):
                 attr = serialized(attr)
             setattr(self, name, attr)
 
