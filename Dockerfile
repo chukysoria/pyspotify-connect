@@ -8,3 +8,4 @@ ADD https://github.com/sashahilton00/spotify-connect-resources/raw/master/libs/a
 WORKDIR /usr/src/pyspotify-connect
 
 ENTRYPOINT ["tox"]
+
