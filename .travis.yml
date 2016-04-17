@@ -15,8 +15,8 @@ before_install:
   - docker build -t chukysoria/pyspotify-connect .
 
 script:
-  - docker run chukysoria/pyspotify-connect coverage run --source=spotifyconnect tox
+  - docker run chukysoria/pyspotify-connect python -m coverage run --source=spotifyconnect tox
 
 after_succes:
-  - docker run chukysoria/pyspotify-connect coveralls
+  - docker run chukysoria/pyspotify-connect python -m coveralls
  
