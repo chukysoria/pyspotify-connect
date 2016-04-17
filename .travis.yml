@@ -5,6 +5,12 @@ language: python
 services:
   - docker
 
+addons:
+  apt:
+    packages:
+    - qemu-user-static
+
+
 before_install:
   - docker build -t chukysoria/pyspotify-connect .
   - docker run chukysoria/pyspotify-connect
