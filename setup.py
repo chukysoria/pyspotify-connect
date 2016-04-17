@@ -28,9 +28,13 @@ setup(
     long_description=read_file('README.rst'),
     keywords='spotify connect library',
     packages=find_packages(),
+    test_suite="tests",
     zip_safe=False,
     include_package_data=True,
-    setup_requires=['cffi >= 1.0.0'],
+    setup_requires=[
+        'pytest-runner',
+        'cffi >= 1.0.0'],
+    tests_require=['pytest'],
     cffi_modules=['spotifyconnect/_spotifyconnect_build.py:ffi'],
     install_requires=[
         'cffi >= 1.0.0',
