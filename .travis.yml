@@ -2,8 +2,6 @@ sudo: true
 
 language: python
 
-cache: pip
-
 services:
   - docker
 
