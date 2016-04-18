@@ -1,0 +1,24 @@
+sudo: true
+
+language: python
+
+cache: pip
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+    - qemu-user-static
+
+before_install:
+  - docker build -t chukysoria/pyspotify-connect .
+
+install: true
+
+script:
+  - docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect -c tox
+
+after_success:
+  - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect -c coveralls
