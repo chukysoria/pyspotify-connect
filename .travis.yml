@@ -10,15 +10,15 @@ addons:
     packages:
     - qemu-user-static
 
-
 before_install:
   - docker build -t chukysoria/pyspotify-connect .
   - docker create -v /usr/src/pyspotify-connect --name source chukysoria/pyspotify-connect
+
+install: true
 
 script:
   - docker run --volumes-from source chukysoria/pyspotify-connect -c tox
 
 after_succes:
-  - docker run -e TRAVIS=$(TRAVIS) -e TRAVIS_JOB_ID=$(TRAVIS_JOB_ID) -e TRAVIS_BRANCH=$(TRAVIS_BRANCH)
-    --volumes-from source chukysoria/pyspotify-connect -c coveralls
+  - docker run -e TRAVIS=$(TRAVIS) -e TRAVIS_JOB_ID=$(TRAVIS_JOB_ID) -e TRAVIS_BRANCH=$(TRAVIS_BRANCH) --volumes-from source chukysoria/pyspotify-connect -c coveralls
  
