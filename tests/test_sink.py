@@ -3,13 +3,15 @@ from __future__ import unicode_literals
 import unittest
 
 import spotifyconnect
+
 from tests import mock
-import tests
+
 
 class MockSink(spotifyconnect.Sink):
 
     def __init__(self):
         self.on()
+
 
 class BaseSinkTest(unittest.TestCase):
 
@@ -24,7 +26,8 @@ class BaseSinkTest(unittest.TestCase):
 
     def test_init_connects_to_music_delivery_event(self):
         self.session.player.on.assert_called_with(
-            spotifyconnect.PlayerEvent.MUSIC_DELIVERY, self.sink._on_music_delivery)
+            spotifyconnect.PlayerEvent.MUSIC_DELIVERY,
+            self.sink._on_music_delivery)
 
     def test_off_disconnects_from_music_delivery_event(self):
         self.assertEqual(self.session.player.off.call_count, 0)
@@ -45,4 +48,5 @@ class BaseSinkTest(unittest.TestCase):
     def test_raise_error_if_not_implemented(self):
 
         with self.assertRaises(NotImplementedError):
-            self.sink._on_music_delivery(mock.ANY, mock.ANY, mock.ANY, mock.ANY, mock.ANY)
+            self.sink._on_music_delivery(
+                mock.ANY, mock.ANY, mock.ANY, mock.ANY, mock.ANY)

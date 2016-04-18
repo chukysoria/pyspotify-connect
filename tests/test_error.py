@@ -14,7 +14,8 @@ class ErrorTest(unittest.TestCase):
 
     def test_maybe_raise(self):
         with self.assertRaises(spotifyconnect.LibError):
-            spotifyconnect.Error.maybe_raise(spotifyconnect.ErrorType.WrongAPIVersion)
+            spotifyconnect.Error.maybe_raise(
+                spotifyconnect.ErrorType.WrongAPIVersion)
 
     def test_maybe_raise_does_not_raise_if_ok(self):
         spotifyconnect.Error.maybe_raise(spotifyconnect.ErrorType.Ok)
@@ -44,10 +45,14 @@ class LibErrorTest(unittest.TestCase):
         self.assertEqual(error.error_type, 1)
 
     def test_is_equal_if_same_error_type(self):
-        self.assertEqual(spotifyconnect.LibError(0), spotifyconnect.LibError(0))
+        self.assertEqual(
+            spotifyconnect.LibError(0),
+            spotifyconnect.LibError(0))
 
     def test_is_not_equal_if_different_error_type(self):
-        self.assertNotEqual(spotifyconnect.LibError(0), spotifyconnect.LibError(1))
+        self.assertNotEqual(
+            spotifyconnect.LibError(0),
+            spotifyconnect.LibError(1))
 
     def test_error_has_useful_repr(self):
         error = spotifyconnect.LibError(0)
@@ -63,7 +68,9 @@ class LibErrorTest(unittest.TestCase):
 
     def test_has_error_constants(self):
         self.assertEqual(
-            spotifyconnect.LibError.Ok, spotifyconnect.LibError(spotifyconnect.ErrorType.Ok))
+            spotifyconnect.LibError.Ok,
+            spotifyconnect.LibError(
+                spotifyconnect.ErrorType.Ok))
         self.assertEqual(
             spotifyconnect.LibError.WrongAPIVersion,
             spotifyconnect.LibError(spotifyconnect.ErrorType.WrongAPIVersion))
@@ -91,7 +98,7 @@ class ErrorTypeTest(unittest.TestCase):
         self.assertEqual(spotifyconnect.ErrorType.GeneralPlaybackError, 1001)
         self.assertEqual(spotifyconnect.ErrorType.PlaybackRateLimited, 1002)
         self.assertEqual(spotifyconnect.ErrorType.Unknown, 1003)
-        
+
 
 class TimeoutTest(unittest.TestCase):
 
