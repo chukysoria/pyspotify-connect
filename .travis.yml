@@ -2,6 +2,8 @@ sudo: true
 
 language: python
 
+cache: pip
+
 services:
   - docker
 
@@ -12,14 +14,12 @@ addons:
 
 before_install:
   - docker build -t chukysoria/pyspotify-connect .
-  - docker create -v /usr/src/pyspotify-connect --name source chukysoria/pyspotify-connect
 
-install: true
+install:
+  - pip install coveralls
 
 script:
-  - docker run --volumes-from source chukysoria/pyspotify-connect -c tox && ls -al
+  - docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect -c tox
 
 after_success:
-  - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH --volumes-from source chukysoria/pyspotify-connect -c ls -al
-  - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH --volumes-from source chukysoria/pyspotify-connect -c coveralls
- 
+  - coveralls
