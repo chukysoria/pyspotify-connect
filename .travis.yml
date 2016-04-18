@@ -13,10 +13,12 @@ addons:
 
 before_install:
   - docker build -t chukysoria/pyspotify-connect .
+  - docker volume create --name source
 
 script:
-  - docker run chukysoria/pyspotify-connect python -m coverage run --source=spotifyconnect tox
+  - docker run -v source:/usr/app/pyspotify-connect chukysoria/pyspotify-connect -c tox
 
 after_succes:
-  - docker run chukysoria/pyspotify-connect python -m coveralls
+  - docker run -e TRAVIS=$(TRAVIS) -e TRAVIS_JOB_ID=$(TRAVIS_JOB_ID) -e TRAVIS_BRANCH=$(TRAVIS_BRANCH)
+    -v source:/usr/app/pyspotify-connect chukysoria/pyspotify-connect -c coveralls
  
