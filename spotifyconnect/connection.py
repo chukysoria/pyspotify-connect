@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 import weakref
 
-from spotifyconnect import ffi, lib, serialized, utils
 import spotifyconnect
+from spotifyconnect import ffi, lib, serialized, utils
 
 
 __all__ = [
@@ -12,6 +12,7 @@ __all__ = [
     'DebugEvent',
     'ConnectionState'
 ]
+
 
 class Connection(utils.EventEmitter):
 
@@ -33,8 +34,12 @@ class Connection(utils.EventEmitter):
         self._emitters = []
         self._callback_handles = set()
 
-        spotifyconnect.Error.maybe_raise(lib.SpRegisterConnectionCallbacks(_ConnectionCallbacks.get_struct(), session))
-        spotifyconnect.Error.maybe_raise(lib.SpRegisterDebugCallbacks(_DebugCallbacks.get_struct(), session))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpRegisterConnectionCallbacks(
+                _ConnectionCallbacks.get_struct(), session))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpRegisterDebugCallbacks(
+                _DebugCallbacks.get_struct(), session))
 
     @property
     @serialized
@@ -108,19 +113,26 @@ class Connection(utils.EventEmitter):
         username = utils.to_char(username)
 
         if password is not None:
-            spotifyconnect.Error.maybe_raise(lib.SpConnectionLoginPassword(username, password))
+            spotifyconnect.Error.maybe_raise(
+                lib.SpConnectionLoginPassword(
+                    username, password))
         elif blob is not None:
-            spotifyconnect.Error.maybe_raise(lib.SpConnectionLoginBlob(username, blob))
+            spotifyconnect.Error.maybe_raise(
+                lib.SpConnectionLoginBlob(username, blob))
         elif zeroconf is not None:
-            spotifyconnect.Error.maybe_raise(lib.SpConnectionLoginZeroConf(username, *zeroconf))
+            spotifyconnect.Error.maybe_raise(
+                lib.SpConnectionLoginZeroConf(
+                    username, *zeroconf))
         else:
-            raise AttributeError("Must specify a login method (password, blob or zeroconf)")
+            raise AttributeError(
+                "Must specify a login method (password, blob or zeroconf)")
 
     @serialized
     def logout(self):
         """Log out the current user.
         """
         spotifyconnect.Error.maybe_raise(lib.SpConnectionLogout())
+
 
 class ConnectionEvent(object):
 
@@ -130,6 +142,7 @@ class ConnectionEvent(object):
     CONNECTION_NOTIFY_UPDATED = 'connection_notify'
     NEW_CREDENTIALS = 'connection_new_credentials'
     ERROR_NOTIFICATION = 'error_notification'
+
 
 class DebugEvent(object):
 
@@ -172,6 +185,7 @@ class _ConnectionCallbacks(object):
         spotifyconnect._session_instance.connection.emit(
             ConnectionEvent.NEW_CREDENTIALS, blob, ffi.from_handle(sp_userdata))
 
+
 class _DebugCallbacks(object):
 
     """Internal class."""
@@ -195,13 +209,17 @@ class _DebugCallbacks(object):
             DebugEvent.DEBUG_MESSAGE,
             message, ffi.from_handle(sp_userdata))
 
+
 @utils.make_enum('kSpConnectionNotify')
 class ConnectionState(utils.IntEnum):
     pass
 
 # Error callbacks
+
+
 @ffi.callback('void(SpError error, void *userdata)')
 def error_callback(error, sp_userdata):
-    spotifyconnect._session_instance.connection.emit(ConnectionEvent.ERROR_NOTIFICATION,
-        spotifyconnect.ErrorType(error), ffi.from_handle(sp_userdata))
-
+    spotifyconnect._session_instance.connection.emit(
+        ConnectionEvent.ERROR_NOTIFICATION,
+        spotifyconnect.ErrorType(error),
+        ffi.from_handle(sp_userdata))

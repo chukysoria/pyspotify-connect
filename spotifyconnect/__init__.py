@@ -15,6 +15,7 @@ _lock = threading.RLock()
 # one session exists in each process.
 _session_instance = None
 
+
 def _setup_logging():
     """Setup logging to log to nowhere by default.
 

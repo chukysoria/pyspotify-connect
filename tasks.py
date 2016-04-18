@@ -4,6 +4,7 @@ import sys
 
 from invoke import run, task
 
+
 @task
 def test(coverage=False, watch=False, warn=False):
     if watch:
@@ -13,13 +14,15 @@ def test(coverage=False, watch=False, warn=False):
         cmd += ' --cov=spotifyconnect --cov-report=term-missing'
     run(cmd, pty=True, warn=warn)
 
+
 @task
 def preprocess_header():
     run(
         'cpp spotifyconnect/spotify.armv6l.h > spotifyconnect/spotify.processed.armv6l.h && sed -i "s/__extension__//g" spotifyconnect/spotify.processed.armv6l.h')
     run(
         'cpp spotifyconnect/spotify.armv7l.h > spotifyconnect/spotify.processed.armv7l.h && sed -i "s/__extension__//g" spotifyconnect/spotify.processed.armv7l.h')
-		
+
+
 def watcher(task, *args, **kwargs):
     while True:
         run('clear')

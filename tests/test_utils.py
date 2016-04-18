@@ -6,7 +6,7 @@ import unittest
 
 import spotifyconnect
 from spotifyconnect import utils
-import tests
+
 from tests import mock
 
 
@@ -177,6 +177,7 @@ class IntEnumTest(unittest.TestCase):
         self.assertIsNot(self.Foo(2), self.Foo.bar)
         self.assertIsNot(self.Foo(1), self.Foo.baz)
 
+
 class ToBytesTest(unittest.TestCase):
 
     def test_unicode_to_bytes_is_encoded_as_utf8(self):
@@ -204,7 +205,8 @@ class ToBytesOrNoneTest(unittest.TestCase):
         self.assertEqual(utils.to_bytes_or_none(spotifyconnect.ffi.NULL), None)
 
     def test_char_becomes_bytes(self):
-        result = utils.to_bytes_or_none(spotifyconnect.ffi.new('char[]', b'abc'))
+        result = utils.to_bytes_or_none(
+            spotifyconnect.ffi.new('char[]', b'abc'))
 
         self.assertEqual(result, b'abc')
 
@@ -236,7 +238,9 @@ class ToUnicodeTest(unittest.TestCase):
 class ToUnicodeOrNoneTest(unittest.TestCase):
 
     def test_null_becomes_none(self):
-        self.assertEqual(utils.to_unicode_or_none(spotifyconnect.ffi.NULL), None)
+        self.assertEqual(
+            utils.to_unicode_or_none(
+                spotifyconnect.ffi.NULL), None)
 
     def test_char_becomes_bytes(self):
         result = utils.to_unicode_or_none(
@@ -261,7 +265,8 @@ class ToCharTest(unittest.TestCase):
         result = utils.to_char('æøå')
 
         self.assertIsInstance(result, spotifyconnect.ffi.CData)
-        self.assertEqual(spotifyconnect.ffi.string(result).decode('utf-8'), 'æøå')
+        self.assertEqual(spotifyconnect.ffi.string(
+            result).decode('utf-8'), 'æøå')
 
     def test_anything_else_fails(self):
         with self.assertRaises(ValueError):
@@ -286,7 +291,8 @@ class ToCharOrNullTest(unittest.TestCase):
         result = utils.to_char_or_null('æøå')
 
         self.assertIsInstance(result, spotifyconnect.ffi.CData)
-        self.assertEqual(spotifyconnect.ffi.string(result).decode('utf-8'), 'æøå')
+        self.assertEqual(spotifyconnect.ffi.string(
+            result).decode('utf-8'), 'æøå')
 
     def test_anything_else_fails(self):
         with self.assertRaises(ValueError):

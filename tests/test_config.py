@@ -6,6 +6,7 @@ import tempfile
 import unittest
 
 import spotifyconnect
+
 from tests import mock
 
 
@@ -15,14 +16,16 @@ class ConfigTest(unittest.TestCase):
         self.config = spotifyconnect.Config()
 
     def test_defaults(self):
-        
+
         self.assertEqual(self.config.version, 4)
         self.assertEqual(self.config.buffer_size, 0x100000)
         self.assertEqual(self.config.remote_name, 'Spotify-Connect')
         self.assertEqual(self.config.brand_name, 'DummyBrand')
         self.assertEqual(self.config.model_name, 'DummyModel')
-        self.assertEqual(self.config.device_type, spotifyconnect.DeviceType.AudioDongle)
-    
+        self.assertEqual(
+            self.config.device_type,
+            spotifyconnect.DeviceType.AudioDongle)
+
     def test_api_version(self):
         self.config.version = 4
 
@@ -31,10 +34,10 @@ class ConfigTest(unittest.TestCase):
 
     def test_buffer_size(self):
         self.config.buffer_size = 400
-        
+
         self.assertEqual(self.config._sp_session_config.buffer_size, 400)
-        self.assertEqual(self.config.buffer_size, 400)        
-    
+        self.assertEqual(self.config.buffer_size, 400)
+
     def test_app_key(self):
         self.config.app_key = b'\x02' * 321
 
@@ -104,12 +107,13 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(
             self.config._sp_session_config.deviceId, spotifyconnect.ffi.NULL)
         self.assertIsNone(self.config.device_id)
-        
+
     def test_remote_name(self):
         self.config.remote_name = 'remote123'
 
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.remoteName),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.remoteName),
             b'remote123')
         self.assertEqual(self.config.remote_name, 'remote123')
 
@@ -124,7 +128,8 @@ class ConfigTest(unittest.TestCase):
         self.config.brand_name = 'brand123'
 
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.brandName),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.brandName),
             b'brand123')
         self.assertEqual(self.config.brand_name, 'brand123')
 
@@ -139,7 +144,8 @@ class ConfigTest(unittest.TestCase):
         self.config.model_name = 'model123'
 
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.modelName),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.modelName),
             b'model123')
         self.assertEqual(self.config.model_name, 'model123')
 
@@ -149,19 +155,22 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(
             self.config._sp_session_config.modelName, spotifyconnect.ffi.NULL)
         self.assertIsNone(self.config.model_name)
-    
+
     def test_device_type(self):
         self.config.device_type = spotifyconnect.DeviceType.AudioDongle
-        
+
         self.assertEqual(self.config._sp_session_config.deviceType,
+                         spotifyconnect.DeviceType.AudioDongle)
+        self.assertEqual(
+            self.config.device_type,
             spotifyconnect.DeviceType.AudioDongle)
-        self.assertEqual(self.config.device_type, spotifyconnect.DeviceType.AudioDongle)
-        
+
     def test_client_id(self):
         self.config.client_id = 'client123'
 
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.client_id),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.client_id),
             b'client123')
         self.assertEqual(self.config.client_id, 'client123')
 
@@ -176,7 +185,8 @@ class ConfigTest(unittest.TestCase):
         self.config.client_secret = 'secret123'
 
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.client_secret),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.client_secret),
             b'secret123')
         self.assertEqual(self.config.client_secret, 'secret123')
 
@@ -184,8 +194,9 @@ class ConfigTest(unittest.TestCase):
         self.config.client_secret = ''
 
         self.assertEqual(
-            self.config._sp_session_config.client_secret, spotifyconnect.ffi.NULL)
-        self.assertIsNone(self.config.client_secret)                             
+            self.config._sp_session_config.client_secret,
+            spotifyconnect.ffi.NULL)
+        self.assertIsNone(self.config.client_secret)
 
     def test_sp_session_config_has_unicode_encoded_as_utf8(self):
         self.config.device_id = 'æ device_id'
@@ -199,50 +210,61 @@ class ConfigTest(unittest.TestCase):
             spotifyconnect.ffi.string(self.config._sp_session_config.deviceId),
             b'\xc3\xa6 device_id')
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.remoteName),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.remoteName),
             b'\xc3\xa6 remoteName')
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.brandName),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.brandName),
             b'\xc3\xa6 brandName')
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.modelName),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.modelName),
             b'\xc3\xa6 modelName')
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.client_id),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.client_id),
             b'\xc3\xa6 client_id')
         self.assertEqual(
-            spotifyconnect.ffi.string(self.config._sp_session_config.client_secret),
+            spotifyconnect.ffi.string(
+                self.config._sp_session_config.client_secret),
             b'\xc3\xa6 client_secret')
 
-    def test_userdata(self):        
+    def test_userdata(self):
         userdata_python = 'handle'
         userdata = spotifyconnect.ffi.new_handle(userdata_python)
         self.config.userdata = userdata
-        
+
         self.assertEqual(self.config._sp_session_config.userdata, userdata)
         self.assertEqual(self.config.userdata, userdata)
         self.assertEqual(spotifyconnect.ffi.from_handle(self.config.userdata),
-            'handle')
+                         'handle')
 
     def test_userdata_is_unknown(self):
-        self.assertEqual(self.config._sp_session_config.userdata, spotifyconnect.ffi.NULL)
+        self.assertEqual(
+            self.config._sp_session_config.userdata,
+            spotifyconnect.ffi.NULL)
         self.assertEqual(self.config.userdata, spotifyconnect.ffi.NULL)
 
     @spotifyconnect.ffi.callback('void(SpError error, void *userdata)')
     def error_callback(error, sp_userdata):
         pass
-            
-    def test_error_callback(self): 
+
+    def test_error_callback(self):
         self.config.error_callback = self.error_callback
-        
-        self.assertEqual(self.config._sp_session_config.error_callback, self.error_callback)
+
+        self.assertEqual(
+            self.config._sp_session_config.error_callback,
+            self.error_callback)
         self.assertEqual(self.config.error_callback, self.error_callback)
 
     def test_error_callback_is_unknown(self):
-        self.assertEqual(self.config._sp_session_config.error_callback, spotifyconnect.ffi.NULL)
-        self.assertEqual(self.config.error_callback, spotifyconnect.ffi.NULL)    
-    
-        
+        self.assertEqual(
+            self.config._sp_session_config.error_callback,
+            spotifyconnect.ffi.NULL)
+        self.assertEqual(self.config.error_callback, spotifyconnect.ffi.NULL)
+
+
 class DeviceTypeTest(unittest.TestCase):
 
     def test_has_contants(self):

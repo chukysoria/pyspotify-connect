@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import gc
 import platform
 import unittest
-import weakref
 
 try:
     # Python 3.3+
@@ -56,12 +55,14 @@ def create_session_mock():
     spotifyconnect._session_instance = session
     return session
 
+
 def create_real_player(lib_mock):
     """Create a :class:`spotifyconnect.Player` mock for testing."""
     lib_mock.SpRegisterPlaybackCallbacks.return_value = spotifyconnect.ErrorType.Ok
     session = create_session_mock()
     session.player = spotifyconnect.Player(session)
     return session
+
 
 def create_real_connection(lib_mock):
     """Create a :class:`spotifyconnect.Player` mock for testing."""
@@ -71,7 +72,8 @@ def create_real_connection(lib_mock):
     session.connection = spotifyconnect.Connection(session)
     return session
 
-def mock_get_metadata(sp_metadata, offset):    
+
+def mock_get_metadata(sp_metadata, offset):
     metadata = spotifyconnect.ffi.new('SpMetadata *')
     metadata.playlist_name = b'Playlist'
     metadata.playlist_uri = b'Playlist uri'
@@ -82,11 +84,16 @@ def mock_get_metadata(sp_metadata, offset):
     metadata.album_name = b'Album'
     metadata.album_uri = b'Album uri'
     metadata.cover_uri = b'Cover uri'
-    metadata.duration = 32541    
-    
-    spotifyconnect.ffi.buffer(sp_metadata, 1668)[:] = spotifyconnect.ffi.buffer(metadata, 1668)[:]
-    
-    return spotifyconnect.ErrorType.Ok    
+    metadata.duration = 32541
+
+    spotifyconnect.ffi.buffer(
+        sp_metadata,
+        1668)[:] = spotifyconnect.ffi.buffer(
+        metadata,
+        1668)[:]
+
+    return spotifyconnect.ErrorType.Ok
+
 
 def mock_zeroconf(sp_zeroconf):
     zeroconf = spotifyconnect.ffi.new('SpZeroConfVars *')
@@ -97,8 +104,13 @@ def mock_zeroconf(sp_zeroconf):
     zeroconf.accountReq = b'Premium'
     zeroconf.deviceType = b'Dongle'
     zeroconf.libraryVersion = b'1.2.0'
-    spotifyconnect.ffi.buffer(sp_zeroconf, 405)[:] = spotifyconnect.ffi.buffer(zeroconf, 405)[:]
+    spotifyconnect.ffi.buffer(
+        sp_zeroconf,
+        405)[:] = spotifyconnect.ffi.buffer(
+        zeroconf,
+        405)[:]
     return spotifyconnect.ErrorType.Ok
+
 
 def gc_collect():
     """Run enough GC collections to make object finalizers run."""

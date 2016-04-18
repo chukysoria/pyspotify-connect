@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 import logging
 
-from spotifyconnect import ffi, lib, utils
 import spotifyconnect
+from spotifyconnect import ffi, lib, utils
 from spotifyconnect.connection import error_callback
 
 
@@ -12,6 +12,7 @@ __all__ = [
 ]
 
 logger = logging.getLogger(__name__)
+
 
 class Session:
 
@@ -50,7 +51,8 @@ class Session:
         self.config.error_callback = error_callback
         self.config.userdata = userdata
 
-        spotifyconnect.Error.maybe_raise(lib.SpInit(self.config.sp_session_config))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpInit(self.config.sp_session_config))
 
         self.connection = spotifyconnect.Connection(userdata)
         self.player = spotifyconnect.Player(userdata)

@@ -1,16 +1,17 @@
 from __future__ import unicode_literals
 
-import unittest
 import json
-
-import tests
-from tests import mock
+import unittest
 
 import spotifyconnect
 from spotifyconnect import _zeroconfserver
 
+import tests
+from tests import mock
+
+
 class ZeroconfTest(unittest.TestCase):
-    
+
     def setUp(self):
         self.client = _zeroconfserver.app.test_client()
 
@@ -34,7 +35,7 @@ class ZeroconfTest(unittest.TestCase):
     def test_login_zeroconf_get_info(self, lib_mock):
         lib_mock.SpZeroConfGetVars.side_effect = tests.mock_zeroconf
         tests.create_real_session(lib_mock)
-                
+
         data = self.client.get('/login/_zeroconf?action=getInfo').data.decode()
         result = json.loads(data)
 
@@ -55,8 +56,7 @@ class ZeroconfTest(unittest.TestCase):
     def test_login_zeroconf_post_user(self, lib_mock):
         lib_mock.SpConnectionLoginZeroConf.return_value = spotifyconnect.ErrorType.Ok
         tests.create_real_connection(lib_mock)
-        
-          
+
         data = self.client.post('/login/_zeroconf?action=addUser', data=dict(
             userName='foo',
             blob='longstring',
@@ -66,5 +66,9 @@ class ZeroconfTest(unittest.TestCase):
         self.assertEqual(result['status'], 101)
         self.assertEqual(result['spotifyError'], 0)
         self.assertEqual(result['statusString'], 'ERROR-OK')
-        lib_mock.SpConnectionLoginZeroConf.assert_called_once_with(mock.ANY, 'longstring', 'longkey')
-        self.assertEqual(spotifyconnect.ffi.string(lib_mock.SpConnectionLoginZeroConf.call_args[0][0]), b'foo')
+        lib_mock.SpConnectionLoginZeroConf.assert_called_once_with(
+            mock.ANY, 'longstring', 'longkey')
+        self.assertEqual(
+            spotifyconnect.ffi.string(
+                lib_mock.SpConnectionLoginZeroConf.call_args[0][0]),
+            b'foo')

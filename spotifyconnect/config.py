@@ -19,6 +19,7 @@ REMOTE_NAME = 'Spotify-Connect'
 BRAND_NAME = 'DummyBrand'
 MODEL_NAME = 'DummyModel'
 
+
 class Config(object):
 
     """The session config.
@@ -36,13 +37,14 @@ class Config(object):
         self._sp_session_config = ffi.new('SpConfig *')
 
         self.version = VERSION
-        self.buffer_size = BUFFER_SIZE #1MB 
+        self.buffer_size = BUFFER_SIZE  # 1MB
         try:
             self.load_application_key_file()
-        except IOError as e:
-            logger.info('File spotify_appkey.key not found on default location.')
-            
-        self.device_id = str(uuid.uuid4())    
+        except IOError:
+            logger.info(
+                'File spotify_appkey.key not found on default location.')
+
+        self.device_id = str(uuid.uuid4())
         self.remote_name = REMOTE_NAME
         self.brand_name = BRAND_NAME
         self.model_name = MODEL_NAME
@@ -61,18 +63,18 @@ class Config(object):
     @version.setter
     def version(self, value):
         self._sp_session_config.version = value
-    
+
     @property
     def buffer_size(self):
         """The buffer size on bytes which libspotify-embedded-shared will uses.
         """
-        return  self._sp_session_config.buffer_size
-    
+        return self._sp_session_config.buffer_size
+
     @buffer_size.setter
     def buffer_size(self, value):
         self._sp_session_config.buffer_size = value
         self.sp_session_config.buffer = lib.malloc(value)
-        
+
     @property
     def app_key(self):
         """Your libspotify application key.
@@ -168,7 +170,7 @@ class Config(object):
     @device_type.setter
     def device_type(self, value):
         self._sp_session_config.deviceType = value
-        
+
     @property
     def client_id(self):
         return utils.to_unicode_or_none(self._sp_session_config.client_id)
@@ -177,7 +179,7 @@ class Config(object):
     def client_id(self, value):
         self._client_id = utils.to_char_or_null(value or None)
         self._sp_session_config.client_id = self._client_id
-        
+
     @property
     def client_secret(self):
         return utils.to_unicode_or_none(self._sp_session_config.client_secret)
@@ -186,7 +188,7 @@ class Config(object):
     def client_secret(self, value):
         self._client_secret = utils.to_char_or_null(value or None)
         self._sp_session_config.client_secret = self._client_secret
-        
+
     @property
     def userdata(self):
         return self._sp_session_config.userdata
@@ -202,6 +204,7 @@ class Config(object):
     @error_callback.setter
     def error_callback(self, value):
         self._sp_session_config.error_callback = value
+
 
 @utils.make_enum('kSpDeviceType')
 class DeviceType(utils.IntEnum):

@@ -17,6 +17,7 @@ else:
     text_type = str
     binary_type = bytes
 
+
 class EventEmitter(object):
 
     """Mixin for adding event emitter functionality to a class."""

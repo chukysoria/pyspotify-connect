@@ -65,6 +65,7 @@ for attr in dir(lib):
         error_no = getattr(lib, attr)
         setattr(LibError, name, LibError(error_no))
 
+
 class Timeout(Error):
 
     """Exception raised by an operation not completing within the given

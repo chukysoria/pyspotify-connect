@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
-from spotifyconnect import ffi, lib, serialized, utils
 import spotifyconnect
+from spotifyconnect import ffi, lib, serialized, utils
 
 
 __all__ = [
@@ -29,7 +29,6 @@ class Metadata(object):
         self.cover_uri = utils.to_unicode(sp_metadata.cover_uri)
         self.duration = sp_metadata.duration
 
-
     def __repr__(self):
         return 'Metadata(%s)' % self.track_uri
 
@@ -48,8 +47,15 @@ class Metadata(object):
     @serialized
     def get_image_url(self, image_size):
         image_url = ffi.new('char[512]')
-        spotifyconnect.Error.maybe_raise(lib.SpGetMetadataImageURL(utils.to_char(self.cover_uri), image_size, image_url, ffi.sizeof(image_url)))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpGetMetadataImageURL(
+                utils.to_char(
+                    self.cover_uri),
+                image_size,
+                image_url,
+                ffi.sizeof(image_url)))
         return utils.to_unicode(image_url)
+
 
 @utils.make_enum('kSpImageSize')
 class ImageSize(utils.IntEnum):
