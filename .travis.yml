@@ -17,9 +17,9 @@ before_install:
 install: true
 
 script:
-  - docker run --volumes-from source chukysoria/pyspotify-connect -c tox -e py27
+  - docker run --volumes-from source chukysoria/pyspotify-connect -c tox && ls -al
 
 after_success:
-  - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH --volumes-from source chukysoria/pyspotify-connect -c ls -a
+  - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH --volumes-from source chukysoria/pyspotify-connect -c ls -al
   - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH --volumes-from source chukysoria/pyspotify-connect -c coveralls
  
