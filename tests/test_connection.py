@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 import unittest
 
 import spotifyconnect
-from spotifyconnect.connection import _ConnectionCallbacks, _DebugCallbacks, error_callback
+from spotifyconnect.connection import (
+   _ConnectionCallbacks, _DebugCallbacks, error_callback)
 
 import tests
 from tests import mock
@@ -25,7 +26,8 @@ class ConnectionTest(unittest.TestCase):
         self.assertEqual(result, spotifyconnect.ConnectionState.LoggedIn)
 
     def test_login(self, lib_mock):
-        lib_mock.SpConnectionLoginPassword.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpConnectionLoginPassword.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_connection(lib_mock)
 
         session.connection.login(username='foo', password='bar')
@@ -41,14 +43,16 @@ class ConnectionTest(unittest.TestCase):
             'bar')
 
     def test_login_fails_with_assert(self, lib_mock):
-        lib_mock.SpConnectionLoginPassword.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpConnectionLoginPassword.return_value = (
+           spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_connection(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
             session.connection.login(username='foo', password='bar')
 
     def test_login_blob(self, lib_mock):
-        lib_mock.SpConnectionLoginBlob.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpConnectionLoginBlob.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_connection(lib_mock)
 
         session.connection.login(username='foo', blob='bar')
@@ -64,14 +68,16 @@ class ConnectionTest(unittest.TestCase):
             'bar')
 
     def test_login_blob_fails_with_assert(self, lib_mock):
-        lib_mock.SpConnectionLoginBlob.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpConnectionLoginBlob.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_connection(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
             session.connection.login(username='foo', blob='bar')
 
     def test_login_zeroconf(self, lib_mock):
-        lib_mock.SpConnectionLoginZeroConf.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpConnectionLoginZeroConf.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_connection(lib_mock)
 
         session.connection.login(username='foo', zeroconf=('bar', 'bar2'))
@@ -84,7 +90,8 @@ class ConnectionTest(unittest.TestCase):
             b'foo')
 
     def test_login_zeroconf_fails_with_assert(self, lib_mock):
-        lib_mock.SpConnectionLoginZeroConf.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpConnectionLoginZeroConf.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_connection(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
@@ -105,7 +112,8 @@ class ConnectionTest(unittest.TestCase):
         lib_mock.SpConnectionLogout.assert_called_once_with()
 
     def test_logout_fails_with_assert(self, lib_mock):
-        lib_mock.SpConnectionLogout.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpConnectionLogout.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_connection(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):

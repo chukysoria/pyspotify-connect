@@ -11,8 +11,8 @@ __version__ = '0.1.9'
 _lock = threading.RLock()
 
 
-# Reference to the spotifyconnect.Session instance. Used to enforce that one and only
-# one session exists in each process.
+# Reference to the spotifyconnect.Session instance. Used to enforce that one
+# and only one session exists in each process.
 _session_instance = None
 
 

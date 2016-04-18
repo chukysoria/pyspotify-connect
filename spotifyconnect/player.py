@@ -223,7 +223,8 @@ class _PlayerCallbacks(object):
 
     @staticmethod
     @ffi.callback(
-        'uint32_t(void *data, uint32_t num_samples, SpSampleFormat *format, uint32_t *pending, void *userdata)')
+        'uint32_t(void *data, uint32_t num_samples, SpSampleFormat *format, '
+        'uint32_t *pending, void *userdata)')
     def playback_data(
             frames,
             num_frames,

@@ -54,7 +54,8 @@ class ZeroconfTest(unittest.TestCase):
 
     @mock.patch('spotifyconnect.connection.lib', spec=spotifyconnect.lib)
     def test_login_zeroconf_post_user(self, lib_mock):
-        lib_mock.SpConnectionLoginZeroConf.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpConnectionLoginZeroConf.return_value = (
+            spotifyconnect.ErrorType.Ok)
         tests.create_real_connection(lib_mock)
 
         data = self.client.post('/login/_zeroconf?action=addUser', data=dict(

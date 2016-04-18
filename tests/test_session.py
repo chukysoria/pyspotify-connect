@@ -32,9 +32,12 @@ class SessionTest(unittest.TestCase):
             player_lib_mock,
             lib_mock):
         lib_mock.SpInit.return_value = spotifyconnect.ErrorType.Ok
-        player_lib_mock.SpRegisterPlaybackCallbacks.return_value = spotifyconnect.ErrorType.Ok
-        conn_lib_mock.SpRegisterConnectionCallbacks.return_value = spotifyconnect.ErrorType.Ok
-        conn_lib_mock.SpRegisterDebugCallbacks.return_value = spotifyconnect.ErrorType.Ok
+        player_lib_mock.SpRegisterPlaybackCallbacks.return_value = (
+            spotifyconnect.ErrorType.Ok)
+        conn_lib_mock.SpRegisterConnectionCallbacks.return_value = (
+            spotifyconnect.ErrorType.Ok)
+        conn_lib_mock.SpRegisterDebugCallbacks.return_value = (
+            spotifyconnect.ErrorType.Ok)
 
         session = spotifyconnect.Session()
 
@@ -64,7 +67,8 @@ class SessionTest(unittest.TestCase):
             b'a connect name')
 
     def test_set_remote_name_fails_with_assert(self, lib_mock):
-        lib_mock.SpSetDisplayName.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpSetDisplayName.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
 
         session = tests.create_real_session(lib_mock)
 
@@ -82,7 +86,8 @@ class SessionTest(unittest.TestCase):
         self.assertEqual(result.public_key, 'Public key')
 
     def test_get_zeroconf_vars_fails_with_assert(self, lib_mock):
-        lib_mock.SpZeroConfGetVars.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpZeroConfGetVars.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
 
         session = tests.create_real_session(lib_mock)
 

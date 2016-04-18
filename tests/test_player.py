@@ -40,14 +40,16 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackPause.assert_called_once_with()
 
     def test_player_pause_fail_raises_error(self, lib_mock):
-        lib_mock.SpPlaybackPause.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpPlaybackPause.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
             session.player.pause()
 
     def test_player_skip_to_next(self, lib_mock):
-        lib_mock.SpPlaybackSkipToNext.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackSkipToNext.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.skip_to_next()
@@ -55,14 +57,16 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackSkipToNext.assert_called_once_with()
 
     def test_player_skip_to_next_fail_raises_error(self, lib_mock):
-        lib_mock.SpPlaybackSkipToNext.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpPlaybackSkipToNext.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
             session.player.skip_to_next()
 
     def test_player_skip_to_prev(self, lib_mock):
-        lib_mock.SpPlaybackSkipToPrev.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackSkipToPrev.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.skip_to_prev()
@@ -70,7 +74,8 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackSkipToPrev.assert_called_once_with()
 
     def test_player_skip_to_prev_fail_raises_error(self, lib_mock):
-        lib_mock.SpPlaybackSkipToPrev.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpPlaybackSkipToPrev.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
@@ -93,7 +98,8 @@ class PlayerTest(unittest.TestCase):
             session.player.seek(45000)
 
     def test_player_enable_shuffle(self, lib_mock):
-        lib_mock.SpPlaybackEnableShuffle.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackEnableShuffle.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.enable_shuffle(True)
@@ -101,7 +107,8 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackEnableShuffle.assert_called_once_with(True)
 
     def test_player_disable_shuffle(self, lib_mock):
-        lib_mock.SpPlaybackEnableShuffle.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackEnableShuffle.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.enable_shuffle(False)
@@ -109,7 +116,8 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackEnableShuffle.assert_called_once_with(False)
 
     def test_player_switch_shuffle(self, lib_mock):
-        lib_mock.SpPlaybackEnableShuffle.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackEnableShuffle.return_value = (
+            spotifyconnect.ErrorType.Ok)
         lib_mock.SpPlaybackIsShuffled.retun_value = True
         session = tests.create_real_player(lib_mock)
 
@@ -118,14 +126,16 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackEnableShuffle.assert_called_once_with(False)
 
     def test_player_enable_shuffle_fail_raises_error(self, lib_mock):
-        lib_mock.SpPlaybackEnableShuffle.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpPlaybackEnableShuffle.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
             session.player.enable_shuffle(True)
 
     def test_player_enable_repeat(self, lib_mock):
-        lib_mock.SpPlaybackEnableRepeat.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackEnableRepeat.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.enable_repeat(True)
@@ -133,7 +143,8 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackEnableRepeat.assert_called_once_with(True)
 
     def test_player_disable_repeat(self, lib_mock):
-        lib_mock.SpPlaybackEnableRepeat.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackEnableRepeat.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.enable_repeat(False)
@@ -141,7 +152,8 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackEnableRepeat.assert_called_once_with(False)
 
     def test_player_switch_repeat(self, lib_mock):
-        lib_mock.SpPlaybackEnableRepeat.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackEnableRepeat.return_value = (
+            spotifyconnect.ErrorType.Ok)
         lib_mock.SpPlaybackIsRepeated.retun_value = True
         session = tests.create_real_player(lib_mock)
 
@@ -150,7 +162,8 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackEnableRepeat.assert_called_once_with(False)
 
     def test_player_enable_repeat_fail_raises_error(self, lib_mock):
-        lib_mock.SpPlaybackEnableRepeat.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpPlaybackEnableRepeat.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
@@ -190,7 +203,8 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(result, 60.0)
 
     def test_player_set_volume(self, lib_mock):
-        lib_mock.SpPlaybackUpdateVolume.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackUpdateVolume.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.volume = 60.0
@@ -198,7 +212,8 @@ class PlayerTest(unittest.TestCase):
         lib_mock.SpPlaybackUpdateVolume.assert_called_once_with(39321)
 
     def test_player_set_volume_fail_raises_error(self, lib_mock):
-        lib_mock.SpPlaybackUpdateVolume.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpPlaybackUpdateVolume.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
@@ -223,7 +238,8 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(result.track_name, 'Track')
 
     def test_get_track_metadata_fails_with_assert(self, lib_mock):
-        lib_mock.SpGetMetadata.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpGetMetadata.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
@@ -241,7 +257,8 @@ class PlayerTest(unittest.TestCase):
                 new_end, 4)[:]
             return spotifyconnect.ErrorType.Ok
 
-        lib_mock.SpGetMetadataValidRange.side_effect = mock_metadata_valid_range
+        lib_mock.SpGetMetadataValidRange.side_effect = (
+            mock_metadata_valid_range)
         session = tests.create_real_player(lib_mock)
 
         result = session.player.metadata_valid_range
@@ -252,7 +269,8 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(result['end'], 10)
 
     def test_player_set_bitrate(self, lib_mock):
-        lib_mock.SpPlaybackSetBitrate.return_value = spotifyconnect.ErrorType.Ok
+        lib_mock.SpPlaybackSetBitrate.return_value = (
+            spotifyconnect.ErrorType.Ok)
         session = tests.create_real_player(lib_mock)
 
         session.player.set_bitrate(spotifyconnect.Bitrate.BITRATE_90k)
@@ -261,7 +279,8 @@ class PlayerTest(unittest.TestCase):
             spotifyconnect.Bitrate.BITRATE_90k)
 
     def test_player_set_bitrate_fail_raises_error(self, lib_mock):
-        lib_mock.SpPlaybackSetBitrate.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpPlaybackSetBitrate.return_value = (
+            spotifyconnect.ErrorType.WrongAPIVersion)
         session = tests.create_real_player(lib_mock)
 
         with self.assertRaises(spotifyconnect.Error):
@@ -318,7 +337,8 @@ class ConnectionCallbacksTest(unittest.TestCase):
         session.player.on(spotifyconnect.PlayerEvent.MUSIC_DELIVERY, callback)
 
         result = _PlayerCallbacks.playback_data(
-            frames_void_ptr, num_frames, sp_audioformat, pending, session_handle)
+            frames_void_ptr, num_frames, sp_audioformat,
+            pending, session_handle)
 
         callback.assert_called_once_with(
             mock.ANY, mock.ANY, num_frames, pending, session)
@@ -338,7 +358,8 @@ class ConnectionCallbacksTest(unittest.TestCase):
         pending = spotifyconnect.ffi.new('unsigned int *', 8)
 
         result = _PlayerCallbacks.playback_data(
-            frames_void_ptr, num_frames, sp_audioformat, pending, session_handle)
+            frames_void_ptr, num_frames, sp_audioformat,
+            pending, session_handle)
 
         self.assertEqual(result, 0)
 

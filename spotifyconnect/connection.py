@@ -183,7 +183,9 @@ class _ConnectionCallbacks(object):
             return
         blob = utils.to_unicode(sp_blob)
         spotifyconnect._session_instance.connection.emit(
-            ConnectionEvent.NEW_CREDENTIALS, blob, ffi.from_handle(sp_userdata))
+            ConnectionEvent.NEW_CREDENTIALS,
+            blob,
+            ffi.from_handle(sp_userdata))
 
 
 class _DebugCallbacks(object):

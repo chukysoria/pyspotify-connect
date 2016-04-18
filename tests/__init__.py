@@ -41,9 +41,12 @@ def buffer_writer(string):
 def create_real_session(lib_mock, conn_lib_mock, player_lib_mock):
     """Create a real :class:`spotifyconnect.Session` using ``lib_mock``."""
     lib_mock.SpInit.return_value = spotifyconnect.ErrorType.Ok
-    player_lib_mock.SpRegisterPlaybackCallbacks.return_value = spotifyconnect.ErrorType.Ok
-    conn_lib_mock.SpRegisterConnectionCallbacks.return_value = spotifyconnect.ErrorType.Ok
-    conn_lib_mock.SpRegisterDebugCallbacks.return_value = spotifyconnect.ErrorType.Ok
+    player_lib_mock.SpRegisterPlaybackCallbacks.return_value = (
+        spotifyconnect.ErrorType.Ok)
+    conn_lib_mock.SpRegisterConnectionCallbacks.return_value = (
+        spotifyconnect.ErrorType.Ok)
+    conn_lib_mock.SpRegisterDebugCallbacks.return_value = (
+        spotifyconnect.ErrorType.Ok)
     config = spotifyconnect.Config()
     config.app_key = b'\x01' * 321
     return spotifyconnect.Session(config=config)
@@ -58,7 +61,8 @@ def create_session_mock():
 
 def create_real_player(lib_mock):
     """Create a :class:`spotifyconnect.Player` mock for testing."""
-    lib_mock.SpRegisterPlaybackCallbacks.return_value = spotifyconnect.ErrorType.Ok
+    lib_mock.SpRegisterPlaybackCallbacks.return_value = (
+        spotifyconnect.ErrorType.Ok)
     session = create_session_mock()
     session.player = spotifyconnect.Player(session)
     return session
@@ -66,8 +70,10 @@ def create_real_player(lib_mock):
 
 def create_real_connection(lib_mock):
     """Create a :class:`spotifyconnect.Player` mock for testing."""
-    lib_mock.SpRegisterConnectionCallbacks.return_value = spotifyconnect.ErrorType.Ok
-    lib_mock.SpRegisterDebugCallbacks.return_value = spotifyconnect.ErrorType.Ok
+    lib_mock.SpRegisterConnectionCallbacks.return_value = (
+        spotifyconnect.ErrorType.Ok)
+    lib_mock.SpRegisterDebugCallbacks.return_value = (
+        spotifyconnect.ErrorType.Ok)
     session = create_session_mock()
     session.connection = spotifyconnect.Connection(session)
     return session

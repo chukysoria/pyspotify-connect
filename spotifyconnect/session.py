@@ -28,8 +28,8 @@ class Session:
 
         You can only have one :class:`Session` instance per process. This is a
         libspotify limitation. If you create a second :class:`Session` instance
-        in the same process pyspotify-connect will raise a :exc:`RuntimeError` with the
-        message "Session has already been initialized".
+        in the same process pyspotify-connect will raise a :exc:`RuntimeError`
+        with the message "Session has already been initialized".
 
     :param config: the session config
     :type config: :class:`Config` or :class:`None`
@@ -67,14 +67,16 @@ class Session:
     """
 
     connection = None
-    """An :class:`~spotifyconnect.connection.Connection` instance for controlling the
-    connection to the Spotify servers."""
+    """An :class:`~spotifyconnect.connection.Connection` instance for
+    controlling the connection to the Spotify servers."""
 
     player = None
-    """A :class:`~spotifyconnect.connection.Connection` instance for controlling playback."""
+    """A :class:`~spotifyconnect.connection.Connection` instance for
+    controlling playback."""
 
     _userdata = None
-    """A internal variable to store the CData object handler for the :class:`~spotifyconnect.session.Session`"""
+    """A internal variable to store the CData object handler for the
+    :class:`~spotifyconnect.session.Session`"""
 
     def set_remote_name(self, remote_name):
         name = utils.to_char_or_null(remote_name or None)
@@ -91,8 +93,8 @@ class Session:
         This method must be called for most callbacks to be called. Without
         calling this method, you'll only get the callbacks that are called from
         internal libspotify threads. When the
-        pyspotify provides an :class:`~spotifyconnect.EventLoop` that you can use for
-        processing events when needed.
+        pyspotify provides an :class:`~spotifyconnect.EventLoop` that you can
+        use for processing events when needed.
         """
         spotifyconnect.Error.maybe_raise(lib.SpPumpEvents())
 

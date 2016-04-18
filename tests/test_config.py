@@ -83,7 +83,8 @@ class ConfigTest(unittest.TestCase):
 
     def test_load_application_key_file_defaults_to_a_file_in_cwd(self):
         open_mock = mock.mock_open(read_data='\x04' * 321)
-        with mock.patch('spotifyconnect.config.open', open_mock, create=True) as m:
+        with mock.patch(
+                'spotifyconnect.config.open', open_mock, create=True) as m:
             self.config.load_application_key_file()
 
         m.assert_called_once_with(b'spotify_appkey.key', 'rb')

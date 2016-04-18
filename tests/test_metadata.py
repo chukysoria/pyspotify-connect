@@ -132,7 +132,8 @@ class MetadataTest(unittest.TestCase):
     @mock.patch('spotifyconnect.metadata.lib', spec=spotifyconnect.lib)
     def test_image_url_fails_with_assert(self, lib_mock):
 
-        lib_mock.SpGetMetadataImageURL.return_value = spotifyconnect.ErrorType.WrongAPIVersion
+        lib_mock.SpGetMetadataImageURL.return_value = (
+           spotifyconnect.ErrorType.WrongAPIVersion)
 
         sp_metadata = spotifyconnect.ffi.new('SpMetadata *')
         metadata = spotifyconnect.Metadata(sp_metadata)
