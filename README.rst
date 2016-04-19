@@ -64,3 +64,9 @@ Project resources
  
 .. image:: https://img.shields.io/pypi/dm/pyspotify-connect.svg?style=flat
     :target: https://pypi.python.org/pypi/pyspotify-connect
+
+.. image:: https://img.shields.io/travis/chukysoria/pyspotify-connect.svg
+    :target: https://travis-ci.org/chukysoria/pyspotify-connect
+
+.. image:: https://img.shields.io/coveralls/chukysoria/pyspotify-connect.svg?maxAge=2592000
+    :target: https://coveralls.io/github/chukysoria/pyspotify-connect?branch=master
