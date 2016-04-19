@@ -1,0 +1,9 @@
+FROM chukysoria/rpi-python-testing:armv6
+MAINTAINER Carlos Sánchez
+
+RUN pip install coveralls tox
+ADD https://github.com/sashahilton00/spotify-connect-resources/raw/master/libs/armel/armv6/release-esdk-1.18.0-v1.18.0-g121b4b2b/libspotify_embedded_shared.so /usr/lib/
+
+WORKDIR /usr/src/pyspotify-connect
+
+ENTRYPOINT ["/bin/bash"]

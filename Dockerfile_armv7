@@ -1,4 +1,4 @@
-FROM chukysoria/armhf-python:latest
+FROM chukysoria/rpi-python-testing:armv7
 MAINTAINER Carlos Sánchez
 
 RUN pip install coveralls tox

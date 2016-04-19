@@ -5,13 +5,17 @@ language: python
 services:
   - docker
 
+env:
+  - ARCH=armv7
+  - ARCH=armv6
+
 addons:
   apt:
     packages:
     - qemu-user-static
 
 before_install:
-  - docker build -t chukysoria/pyspotify-connect .
+  - docker build -t chukysoria/pyspotify-connect -f Dockerfile_$ARCH .
 
 install: true
 
