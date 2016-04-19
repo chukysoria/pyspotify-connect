@@ -1,9 +1,9 @@
-from __future__ import unicode_literals, division
+from __future__ import division, unicode_literals
 
 import weakref
 
-from spotifyconnect import ffi, lib, utils, serialized
 import spotifyconnect
+from spotifyconnect import ffi, lib, serialized, utils
 
 
 __all__ = [
@@ -11,6 +11,7 @@ __all__ = [
     'PlayerEvent',
     'PlaybackNotify'
 ]
+
 
 class Player(utils.EventEmitter):
 
@@ -30,7 +31,9 @@ class Player(utils.EventEmitter):
         self._emitters = []
         self._callback_handles = set()
 
-        spotifyconnect.Error.maybe_raise(lib.SpRegisterPlaybackCallbacks(_PlayerCallbacks.get_struct(), session))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpRegisterPlaybackCallbacks(
+                _PlayerCallbacks.get_struct(), session))
 
     _cache = None
     """A mapping from sp_* objects to their corresponding Python instances.
@@ -106,7 +109,7 @@ class Player(utils.EventEmitter):
     def enable_shuffle(self, value=None):
         """Enable shuffle mode
         """
-        if value == None:
+        if value is None:
             value = not self.shuffled
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackEnableShuffle(value))
 
@@ -114,7 +117,7 @@ class Player(utils.EventEmitter):
     def enable_repeat(self, value=None):
         """Enable repeat mode
         """
-        if value == None:
+        if value is None:
             value = not self.repeated
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackEnableRepeat(value))
 
@@ -149,7 +152,8 @@ class Player(utils.EventEmitter):
     @serialized
     def volume(self, value):
         corrected_value = int(value * 655.35)
-        spotifyconnect.Error.maybe_raise(lib.SpPlaybackUpdateVolume(corrected_value))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpPlaybackUpdateVolume(corrected_value))
 
     @property
     def current_track(self):
@@ -160,7 +164,8 @@ class Player(utils.EventEmitter):
     def metadata_valid_range(self):
         start = ffi.new("int *")
         end = ffi.new("int *")
-        spotifyconnect.Error.maybe_raise(lib.SpGetMetadataValidRange(start, end))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpGetMetadataValidRange(start, end))
         valid_range = {
             'start': start[0],
             'end': end[0]
@@ -170,13 +175,14 @@ class Player(utils.EventEmitter):
     @serialized
     def get_track_metadata(self, offset=0):
         sp_metadata = ffi.new('SpMetadata *')
-        spotifyconnect.Error.maybe_raise(lib.SpGetMetadata(sp_metadata, offset))
+        spotifyconnect.Error.maybe_raise(
+            lib.SpGetMetadata(sp_metadata, offset))
         return spotifyconnect.Metadata(sp_metadata)
-
 
     @serialized
     def set_bitrate(self, bitrate):
         spotifyconnect.Error.maybe_raise(lib.SpPlaybackSetBitrate(bitrate))
+
 
 class PlayerEvent(object):
 
@@ -186,6 +192,7 @@ class PlayerEvent(object):
     MUSIC_DELIVERY = 'playback_data'
     PLAYBACK_SEEK = 'playback_seek'
     PLAYBACK_VOLUME = 'playback_volume'
+
 
 class _PlayerCallbacks(object):
 
@@ -197,7 +204,7 @@ class _PlayerCallbacks(object):
             'notify': cls.playback_notify,
             'audio_data': cls.playback_data,
             'seek': cls.playback_seek,
-            'apply_volume':cls.playback_volume
+            'apply_volume': cls.playback_volume
         })
 
     # XXX Avoid use of the spotify._session_instance global in the following
@@ -209,14 +216,25 @@ class _PlayerCallbacks(object):
         if not spotifyconnect._session_instance:
             return
         playback_notify = PlaybackNotify(sp_playback_notify)
-        spotifyconnect._session_instance.player.emit(PlayerEvent.PLAYBACK_NOTIFY, playback_notify, ffi.from_handle(sp_userdata))
+        spotifyconnect._session_instance.player.emit(
+            PlayerEvent.PLAYBACK_NOTIFY,
+            playback_notify,
+            ffi.from_handle(sp_userdata))
 
     @staticmethod
-    @ffi.callback('uint32_t(void *data, uint32_t num_samples, SpSampleFormat *format, uint32_t *pending, void *userdata)')
-    def playback_data(frames, num_frames, sp_audioformat, sp_pending, sp_userdata):
+    @ffi.callback(
+        'uint32_t(void *data, uint32_t num_samples, SpSampleFormat *format, '
+        'uint32_t *pending, void *userdata)')
+    def playback_data(
+            frames,
+            num_frames,
+            sp_audioformat,
+            sp_pending,
+            sp_userdata):
         if not spotifyconnect._session_instance:
             return
-        if spotifyconnect._session_instance.player.num_listeners(PlayerEvent.MUSIC_DELIVERY) == 0:
+        if spotifyconnect._session_instance.player.num_listeners(
+                PlayerEvent.MUSIC_DELIVERY) == 0:
             return 0
 
         audio_format = spotifyconnect.AudioFormat(sp_audioformat)
@@ -224,9 +242,16 @@ class _PlayerCallbacks(object):
         # Make sure waudio_formate don't pass incomplete frames
         num_frames -= num_frames % audio_format.channels
 
-        frames_buffer = ffi.buffer(frames, num_frames * audio_format.frame_size)
+        frames_buffer = ffi.buffer(
+            frames, num_frames * audio_format.frame_size)
         frames_bytes = frames_buffer[:]
-        num_frames_consumed = spotifyconnect._session_instance.player.call(PlayerEvent.MUSIC_DELIVERY, audio_format, frames_bytes, num_frames, sp_pending, ffi.from_handle(sp_userdata))
+        num_frames_consumed = spotifyconnect._session_instance.player.call(
+            PlayerEvent.MUSIC_DELIVERY,
+            audio_format,
+            frames_bytes,
+            num_frames,
+            sp_pending,
+            ffi.from_handle(sp_userdata))
         return num_frames_consumed
 
     @staticmethod
@@ -235,8 +260,8 @@ class _PlayerCallbacks(object):
         if not spotifyconnect._session_instance:
             return
         millis = int(sp_millis)
-        spotifyconnect._session_instance.player.emit(PlayerEvent.PLAYBACK_SEEK, millis, ffi.from_handle(sp_userdata))
-
+        spotifyconnect._session_instance.player.emit(
+            PlayerEvent.PLAYBACK_SEEK, millis, ffi.from_handle(sp_userdata))
 
     @staticmethod
     @ffi.callback('void(uint16_t volume, void *userdata)')
@@ -244,10 +269,11 @@ class _PlayerCallbacks(object):
         if not spotifyconnect._session_instance:
             return
         volume = sp_volume / 655.35
-        spotifyconnect._session_instance.player.emit(PlayerEvent.PLAYBACK_VOLUME, volume, ffi.from_handle(sp_userdata))
+        spotifyconnect._session_instance.player.emit(
+            PlayerEvent.PLAYBACK_VOLUME, volume, ffi.from_handle(sp_userdata))
+
 
 @utils.make_enum('kSpPlaybackEvent')
 @utils.make_enum('kSpPlaybackNotify')
 class PlaybackNotify(utils.IntEnum):
     pass
-

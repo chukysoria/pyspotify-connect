@@ -2,10 +2,12 @@ sudo: true
 
 language: python
 
-cache: pip
-
 services:
-  - docker
+- docker
+
+env:
+- ARCH=armv7
+- ARCH=armv6
 
 addons:
   apt:
@@ -13,12 +15,24 @@ addons:
     - qemu-user-static
 
 before_install:
-  - docker build -t chukysoria/pyspotify-connect .
+- docker build -t chukysoria/pyspotify-connect -f Dockerfile_$ARCH .
 
 install: true
 
 script:
-  - docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect -c tox
+- docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect
+  -c tox
 
 after_success:
-  - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect -c coveralls
+- docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH
+  -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect -c
+  coveralls
+
+deploy:
+  provider: pypi
+  user: chukysoria
+  password:
+    secure: XBjF+/ZtAXDjlwHeeARWwRyP0Pse4qcCiK68A2WAHJOspWJqv7LhqTroXo65DDsMPbuqSB84rTzAWS5dKC5XfA9/3sZAiH7Lxq8/lOkjfzPcwV42Hb1ySyiclIh1anPDzFPy+WbBLEqw/gHKoZZSHVxNwHDx9F3GpgTdCJqigmNapzadU7vQjSHVm9lg4IrkDg2xHUn02vvDTjahOJSt6gcwS4M7EXxaZtZI40YPb2/KSj+JnQEj1S7Hzmlwom2pEqpYB8ES4pUuT+VgMKqvrNQICQm6t7yLX0i5sdNleQ2oL4wimZUPA7VwMZsPHb7J58L6BXqTVoX6pL6WK6EQD8YTMOugd72pwMmgT791R5HeHNr+RU6EzmI1WQsyBf+UbNpm8F6OrRRBPumKixSTj2k/H3Q8rLa+n/wApYyIPmk3MvHfKOGJWDlvuCZZPO7byoe/elz98ODJoPUWq+JiE3o0h8P6xZLbi9JGJkmUteefSonsrZTem/QLYssHRoBRmUOKZjuZ5h2Hx3Usk/dzYJOFT+UO8HbCDIL8Ie1KzicgVwwowThZlWtG7BxoOvkvfUT/mmNv7pFOd7vPuHfQFAEOmVP+Y4767o5ncmQBtOPz0P6xd4YD8cdsoxyXbL6EoscAogtuQ641R0IWo86r2e0cao81oBIVTjlyoLck7pY=
+  on:
+    tags: true
+    repo: chukysoria/pyspotify-connect

@@ -6,6 +6,7 @@ __all__ = [
     'Sink'
 ]
 
+
 class Sink(object):
 
     def on(self):
@@ -31,7 +32,13 @@ class Sink(object):
             spotifyconnect.PlayerEvent.MUSIC_DELIVERY) == 0
         self._close()
 
-    def _on_music_delivery(self, audio_format, frames, num_frames, pending, session):
+    def _on_music_delivery(
+            self,
+            audio_format,
+            frames,
+            num_frames,
+            pending,
+            session):
         # This method is called from an internal libspotify thread and must
         # not block in any way.
         raise NotImplementedError

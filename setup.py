@@ -27,7 +27,7 @@ setup(
     description='Python wrapper for libspotify-connect',
     long_description=read_file('README.rst'),
     keywords='spotify connect library',
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests', 'tests.*']),
     test_suite="tests",
     zip_safe=False,
     include_package_data=True,
