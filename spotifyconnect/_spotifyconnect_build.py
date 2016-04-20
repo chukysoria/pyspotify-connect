@@ -13,7 +13,7 @@ if StrictVersion(cffi.__version__) < StrictVersion('1.0.0'):
 
 # Options are armv6l or armv7l
 machine = str(platform.machine())
-#If travis deploy change x86_64 to armv7l to allow build the source package
+# If travis deploy change x86_64 to armv7l to allow build the source package
 if os.getenv('DEPLOY') == 'travis':
     machine = 'armv7l'
 if machine == 'armv6l' or machine == 'armv7l':
