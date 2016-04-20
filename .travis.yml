@@ -31,6 +31,7 @@ after_success:
 before_deploy:
 - docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect
   -c "git stash --all"
+- export DEPLOY=travis
 
 deploy:
   skip_cleanup: true
