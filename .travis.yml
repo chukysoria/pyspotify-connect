@@ -6,8 +6,13 @@ services:
 - docker
 
 env:
-- ARCH=armv7
-- ARCH=armv6
+- ARCH=armv7 TOX_ENV=py27
+- ARCH=armv7 TOX_ENV=py34
+- ARCH=armv7 TOX_ENV=pypy
+- ARCH=armv7 TOX_ENV=flake8
+- ARCH=armv6 TOX_ENV=py27
+- ARCH=armv6 TOX_ENV=py34
+- ARCH=armv6 TOX_ENV=pypy
 
 addons:
   apt:
@@ -21,7 +26,7 @@ install: true
 
 script:
 - docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect
-  -c tox
+  -c "tox -e $(TOX_ENV)"
 
 after_success:
 - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH
@@ -29,9 +34,7 @@ after_success:
   coveralls
 
 before_deploy:
-- docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect
-  -c "rm -rf *"
-- export DEPLOY=travis
+- sudo chown -R $TRAVIS_BUILD_DIR
 
 deploy:
   provider: pypi
