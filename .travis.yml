@@ -25,8 +25,8 @@ before_install:
 install: true
 
 script:
-- docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect
-  -c "tox -e $(TOX_ENV)"
+- "docker run -v $TRAVIS_BUILD_DIR:/usr/src/pyspotify-connect chukysoria/pyspotify-connect
+  -c 'tox -e $(TOX_ENV)'"
 
 after_success:
 - docker run -e TRAVIS=$TRAVIS -e TRAVIS_JOB_ID=$TRAVIS_JOB_ID -e TRAVIS_BRANCH=$TRAVIS_BRANCH
