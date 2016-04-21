@@ -35,6 +35,7 @@ after_success:
 
 before_deploy:
 - sudo chown -R $USER $TRAVIS_BUILD_DIR
+- export DEPLOY=travis
 
 deploy:
 - provider: pypi
