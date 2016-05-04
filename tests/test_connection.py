@@ -37,11 +37,11 @@ class ConnectionTest(unittest.TestCase):
         self.assertEqual(
             spotifyconnect.ffi.string(
                 lib_mock.SpConnectionLoginPassword.call_args[0][0]),
-            'foo')
+            b'foo')
         self.assertEqual(
             spotifyconnect.ffi.string(
-            lib_mock.SpConnectionLoginPassword.call_args[0][1]),
-            'bar')
+                lib_mock.SpConnectionLoginPassword.call_args[0][1]),
+            b'bar')
 
     def test_login_fails_with_assert(self, lib_mock):
         lib_mock.SpConnectionLoginPassword.return_value = (
@@ -63,11 +63,11 @@ class ConnectionTest(unittest.TestCase):
         self.assertEqual(
             spotifyconnect.ffi.string(
                 lib_mock.SpConnectionLoginBlob.call_args[0][0]),
-            'foo')
+            b'foo')
         self.assertEqual(
             spotifyconnect.ffi.string(
-            lib_mock.SpConnectionLoginBlob.call_args[0][1]),
-            'bar')
+                lib_mock.SpConnectionLoginBlob.call_args[0][1]),
+            b'bar')
 
     def test_login_blob_fails_with_assert(self, lib_mock):
         lib_mock.SpConnectionLoginBlob.return_value = (
