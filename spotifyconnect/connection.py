@@ -113,10 +113,12 @@ class Connection(utils.EventEmitter):
         username = utils.to_char(username)
 
         if password is not None:
+            password = utils.to_char(password)
             spotifyconnect.Error.maybe_raise(
                 lib.SpConnectionLoginPassword(
                     username, password))
         elif blob is not None:
+            blob = utils.to_char(blob)
             spotifyconnect.Error.maybe_raise(
                 lib.SpConnectionLoginBlob(username, blob))
         elif zeroconf is not None:

@@ -44,4 +44,4 @@ ffi.set_source(
         os.path.dirname(__file__)])
 
 if __name__ == '__main__':
-    ffi.compile()
+    ffi.compile()  # pragma: no cover
