@@ -36,7 +36,7 @@ class AudioFormat(object):
 
     You'll never need to create an instance of this class yourself, but you'll
     get :class:`AudioFormat` objects as the ``audio_format`` argument to the
-    :attr:`~spotify.SessionCallbacks.music_delivery` callback.
+    :attr:`~spotifyconnect.PlayerCallbacks.MUSIC_DELIVERY` callback.
     """
 
     def __init__(self, sp_audioformat):
@@ -55,13 +55,14 @@ class AudioFormat(object):
 
     @property
     def channels(self):
-        """The number of alsa_sink channels, typically 2."""
+        """The number of audio channels, typically 2."""
         return self._sp_audioformat.channels
 
     @property
     def frame_size(self):
         """The byte size of a single frame of this format."""
         if self.sample_type == SampleType.S16NativeEndian:
-            return 2
+            # Sample size is 2 bytes
+            return 2 * self.channels
         else:
             raise ValueError('Unknown sample type: %d', self.sample_type)
