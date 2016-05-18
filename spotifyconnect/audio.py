@@ -63,6 +63,15 @@ class AudioFormat(object):
         """The byte size of a single frame of this format."""
         if self.sample_type == SampleType.S16NativeEndian:
             # Sample size is 2 bytes
-            return 2 * self.channels
+            return self.sample_size * self.channels
+        else:
+            raise ValueError('Unknown sample type: %d', self.sample_type)
+
+    @property
+    def sample_size(self):
+        """The byte size of a single frame of this format."""
+        if self.sample_type == SampleType.S16NativeEndian:
+            # Sample size is 2 bytes
+            return 2
         else:
             raise ValueError('Unknown sample type: %d', self.sample_type)

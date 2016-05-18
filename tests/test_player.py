@@ -322,43 +322,44 @@ class ConnectionCallbacksTest(unittest.TestCase):
         sp_audioformat.channels = 2
         audio_format = spotifyconnect.AudioFormat(sp_audioformat)
 
-        num_frames = 10
-        frames_size = audio_format.frame_size * num_frames
-        frames = spotifyconnect.ffi.new('char[]', frames_size)
-        frames[0:3] = [b'a', b'b', b'c']
-        frames_void_ptr = spotifyconnect.ffi.cast('void *', frames)
+        num_samples = 10
+        expected_samples = 8  # 2 samples of 4 bytes each
+        samples_size = audio_format.sample_size * num_samples
+        samples = spotifyconnect.ffi.new('char[]', samples_size)
+        samples[0:3] = [b'a', b'b', b'c']
+        samples_void_ptr = spotifyconnect.ffi.cast('void *', samples)
 
         pending = spotifyconnect.ffi.new('unsigned int *', 8)
 
         callback = mock.Mock()
-        callback.return_value = num_frames
+        callback.return_value = expected_samples
         session = tests.create_real_player(lib_mock)
         session_handle = spotifyconnect.ffi.new_handle(session)
         session.player.on(spotifyconnect.PlayerEvent.MUSIC_DELIVERY, callback)
 
         result = _PlayerCallbacks.playback_data(
-            frames_void_ptr, num_frames, sp_audioformat,
+            samples_void_ptr, num_samples, sp_audioformat,
             pending, session_handle)
 
         callback.assert_called_once_with(
-            mock.ANY, mock.ANY, num_frames, pending, session)
+            mock.ANY, mock.ANY, expected_samples, pending, session)
         self.assertEqual(
             callback.call_args[0][0]._sp_audioformat, sp_audioformat)
         self.assertEqual(callback.call_args[0][1][:5], b'abc\x00\x00')
-        self.assertEqual(result, num_frames)
+        self.assertEqual(result, expected_samples)
 
     def test_music_delivery_without_callback_does_not_consume(self, lib_mock):
         session = tests.create_real_player(lib_mock)
         session_handle = spotifyconnect.ffi.new_handle(session)
 
         sp_audioformat = spotifyconnect.ffi.new('SpSampleFormat *')
-        num_frames = 10
-        frames = spotifyconnect.ffi.new('char[]', 0)
-        frames_void_ptr = spotifyconnect.ffi.cast('void *', frames)
+        num_samples = 10
+        samples = spotifyconnect.ffi.new('char[]', 0)
+        samples_void_ptr = spotifyconnect.ffi.cast('void *', samples)
         pending = spotifyconnect.ffi.new('unsigned int *', 8)
 
         result = _PlayerCallbacks.playback_data(
-            frames_void_ptr, num_frames, sp_audioformat,
+            samples_void_ptr, num_samples, sp_audioformat,
             pending, session_handle)
 
         self.assertEqual(result, 0)
@@ -371,14 +372,14 @@ class ConnectionCallbacksTest(unittest.TestCase):
         session.player.on(spotifyconnect.PlayerEvent.MUSIC_DELIVERY, callback)
 
         sp_audioformat = spotifyconnect.ffi.new('SpSampleFormat *')
-        num_frames = 10
-        frames = spotifyconnect.ffi.new('char[]', 0)
-        frames_void_ptr = spotifyconnect.ffi.cast('void *', frames)
+        num_samples = 10
+        samples = spotifyconnect.ffi.new('char[]', 0)
+        samples_void_ptr = spotifyconnect.ffi.cast('void *', samples)
         pending = spotifyconnect.ffi.new('unsigned int *', 8)
 
         _PlayerCallbacks.playback_data(
-            frames_void_ptr,
-            num_frames,
+            samples_void_ptr,
+            num_samples,
             sp_audioformat,
             pending,
             session_handle)

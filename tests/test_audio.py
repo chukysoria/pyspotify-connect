@@ -47,7 +47,17 @@ class AudioFormatTest(unittest.TestCase):
         self._sp_audioformat.sample_type = 666
 
         with self.assertRaises(ValueError):
-            self.audio_format.frame_size()
+            self.audio_format.frame_size
+
+    def test_sample_size(self):
+        # INT16 means 16 bits aka 2 bytes per channel
+        self.assertEqual(self.audio_format.sample_size, 2)
+
+    def test_sample_size_fails_if_sample_type_is_unknown(self):
+        self._sp_audioformat.sample_type = 666
+
+        with self.assertRaises(ValueError):
+            self.audio_format.sample_size
 
 
 class BitrateTest(unittest.TestCase):

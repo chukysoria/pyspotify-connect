@@ -1,2 +1,7 @@
-LICENSE
-README.rst
+.git
+.tox
+build
+daemons
+dist
+*.egg-info
+Dockerfile*
