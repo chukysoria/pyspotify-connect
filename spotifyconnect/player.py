@@ -226,8 +226,8 @@ class _PlayerCallbacks(object):
         'uint32_t(void *data, uint32_t num_samples, SpSampleFormat *format, '
         'uint32_t *pending, void *userdata)')
     def playback_data(
-            frames,
-            num_frames,
+            samples,
+            num_samples,
             sp_audioformat,
             sp_pending,
             sp_userdata):
@@ -240,19 +240,19 @@ class _PlayerCallbacks(object):
         audio_format = spotifyconnect.AudioFormat(sp_audioformat)
 
         # Make sure waudio_formate don't pass incomplete frames
-        num_frames -= num_frames % audio_format.channels
+        num_samples -= num_samples % audio_format.frame_size
 
-        frames_buffer = ffi.buffer(
-            frames, num_frames * audio_format.frame_size)
-        frames_bytes = frames_buffer[:]
-        num_frames_consumed = spotifyconnect._session_instance.player.call(
+        samples_buffer = ffi.buffer(
+            samples, num_samples * audio_format.sample_size)
+        samples_bytes = samples_buffer[:]
+        num_samples_consumed = spotifyconnect._session_instance.player.call(
             PlayerEvent.MUSIC_DELIVERY,
             audio_format,
-            frames_bytes,
-            num_frames,
+            samples_bytes,
+            num_samples,
             sp_pending,
             ffi.from_handle(sp_userdata))
-        return num_frames_consumed
+        return num_samples_consumed
 
     @staticmethod
     @ffi.callback('void(uint32_t millis, void *userdata)')
