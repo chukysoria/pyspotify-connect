@@ -59,6 +59,7 @@ class AudioFormatTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.audio_format.sample_size
 
+
 class BitrateTest(unittest.TestCase):
 
     def test_has_contants(self):

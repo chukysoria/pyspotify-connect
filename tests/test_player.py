@@ -355,7 +355,7 @@ class ConnectionCallbacksTest(unittest.TestCase):
         sp_audioformat = spotifyconnect.ffi.new('SpSampleFormat *')
         num_samples = 10
         samples = spotifyconnect.ffi.new('char[]', 0)
-        samples_void_ptr = spotifyconnect.ffi.cast('void *', num_samples)
+        samples_void_ptr = spotifyconnect.ffi.cast('void *', samples)
         pending = spotifyconnect.ffi.new('unsigned int *', 8)
 
         result = _PlayerCallbacks.playback_data(

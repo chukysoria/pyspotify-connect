@@ -67,7 +67,6 @@ class AudioFormat(object):
         else:
             raise ValueError('Unknown sample type: %d', self.sample_type)
 
-
     @property
     def sample_size(self):
         """The byte size of a single frame of this format."""
