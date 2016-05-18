@@ -32,7 +32,6 @@ setup(
     zip_safe=False,
     include_package_data=True,
     setup_requires=[
-        'pytest-runner',
         'cffi >= 1.0.0'],
     tests_require=['pytest'],
     cffi_modules=['spotifyconnect/_spotifyconnect_build.py:ffi'],
